@@ -30,7 +30,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 - R-012: A leaderboard, accessible to all users, must display the total scores and rankings of all players in real-time.
 
 ### 3.4. Match History
-- R-013: Users must be able to view a history of past matches.
+- R-013: Users must be able to view a history of past matches.  
 - R-014: For each past match, the view must include the final score, the user's prediction, and the points they were awarded for that prediction.
 
 ### 3.5. Admin Panel
@@ -40,18 +40,18 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 
 ### 3.6. Technical & System Requirements
 - R-018: The application must be a responsive web app, fully functional on modern desktop and mobile browsers.
-- R-019: The system must manage its usage of the external API to stay within the 100 requests/day limit. Live updates will occur at a 10-minute interval during matches.
-- R-020: If the daily API request count approaches the limit (e.g., 90 requests), the system must pause live updates and display a notification to users.
-- R-021: The application must display a user-friendly message when there are no upcoming matches to show.
-- R-022: The database schema must be designed with a `group_id` column to facilitate future implementation of private groups.
-- R-023: The application must include a simple, accessible Privacy Policy page.
+- R-019: The system must manage its usage of the external API to stay within the 7000 requests/day limit. Live updates will occur at a 5-minute interval during matches.
+- R-020: The application must display a user-friendly message when there are no upcoming matches to show.
+- R-021: The database schema must be designed with a `group_id` column to facilitate future implementation of private groups.
+- R-022: The application must include a simple, accessible Privacy Policy page.
+- R-023: Every bet placement and bet update must be logged in the database, including timestamp, user ID, match ID, and the prediction values.
 
 ## 4. Product Boundaries
 
 ### 4.1. In Scope (MVP)
 - A single, global group for all users.
 - The scoring model is fixed as defined in the functional requirements.
-- Users can only bet on the final score of the match.
+- Users can only bet on the final score of the match (without extra time and penalties).
 - All core features related to user management, betting, live updates, and admin overrides as detailed above.
 
 ### 4.2. Out of Scope (Post-MVP)
@@ -139,6 +139,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
     - Given I am viewing an upcoming match for which betting is open, I can enter integer values into the score fields for both teams.
     - When I enter my prediction, a "Save" or "Submit" button becomes active.
     - After saving, I receive a confirmation that my bet has been placed, and the input fields show my saved prediction.
+    - The system logs the bet placement in the database with timestamp, user ID, match ID, and prediction values.
 
 - ID: US-010
 - Title: Edit a Bet
@@ -148,6 +149,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
     - I can save the updated prediction.
     - The system updates my previous bet with the new one.
     - I can repeat this process as many times as I want before the betting deadline.
+    - Each bet update is logged in the database with timestamp, user ID, match ID, and the new prediction values.
 
 - ID: US-011
 - Title: Betting is Locked After Deadline
@@ -162,16 +164,9 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 - Title: See Live Score and Leaderboard Updates
 - Description: As a user, I want to see match scores and the leaderboard update automatically during live games so I can follow the action in real-time.
 - Acceptance Criteria:
-    - Given a match is in progress, the score displayed for that match on the dashboard updates periodically (every 10 minutes).
+    - Given a match is in progress, the score displayed for that match on the dashboard updates periodically (every 5 minutes).
     - As live scores change, my points and position on the leaderboard are automatically recalculated and updated.
     - The leaderboard page reflects these changes without requiring a manual page refresh.
-
-- ID: US-013
-- Title: View Notification for Paused Live Updates
-- Description: As a user, I want to be informed if live updates have been paused due to API limits, so I understand why scores are not updating.
-- Acceptance Criteria:
-    - Given the system has paused live updates to conserve API requests, a clear, non-intrusive banner or message is displayed in the application.
-    - The message informs users that live updates are temporarily paused and will resume later or after the matches are complete.
 
 ### Admin Functions
 - ID: US-014
@@ -196,7 +191,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 
 ### 6.1. Accuracy and Reliability
 - M-01: The system correctly calculates and assigns points with 100% accuracy according to the defined scoring rules.
-- M-02: The application operates without exceeding the daily API request limit of 100.
+- M-02: The application operates without exceeding the daily API request limit of 7000.
 - M-03: The frequency of admin manual overrides should be minimal, indicating high reliability of the API data pipeline.
 
 ### 6.2. User Engagement
@@ -204,4 +199,4 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 
 ### 6.3. User Experience
 - M-05: The application interface for viewing matches, placing bets, and tracking the leaderboard is simple, clear, and intuitive.
-- M-06: The application provides timely data updates during live matches, with a maximum latency of 10 minutes as defined.
+- M-06: The application provides timely data updates during live matches, with a maximum latency of 5 minutes as defined.
