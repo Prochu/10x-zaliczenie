@@ -261,7 +261,22 @@ export interface Database {
       };
     };
     Views: Record<never, never>;
-    Functions: Record<never, never>;
+    Functions: {
+      get_leaderboard_paginated: {
+        Args: {
+          p_limit?: number;
+          p_offset?: number;
+        };
+        Returns: {
+          rank: number;
+          user_id: string;
+          nickname: string;
+          total_points: number;
+          matches_bet: number;
+          total_count: number;
+        }[];
+      };
+    };
     Enums: {
       bet_action: "created" | "updated";
       match_status: "scheduled" | "live" | "finished" | "cancelled" | "postponed";
