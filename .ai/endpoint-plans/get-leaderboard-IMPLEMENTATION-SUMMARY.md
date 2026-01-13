@@ -43,11 +43,16 @@ Successfully implemented a fully functional `/api/leaderboard` endpoint that pro
 ### 6. **Environment Types** - `src/env.d.ts`
    - Updated to use project's local `SupabaseClient` type
 
-### 7. **Test Data** - `supabase/seed.sql`
+### 7. **Test Data** - `supabase/seed-scripts/seed_leaderboard_test_data.sql`
    - 5 test users (Alice, Bob, Charlie, Diana, Eve)
    - 3 finished matches with scores
    - Various bet scenarios with points awarded
    - Tests ranking, ties, pagination, and zero points
+   - Located in seed-scripts directory for better organization
+
+### 8. **Seed Scripts Documentation** - `supabase/seed-scripts/README.md`
+   - Updated with leaderboard test data information
+   - Usage instructions for both seed scripts
 
 ## Test Results
 
@@ -155,9 +160,14 @@ These were noted in the plan but not required for MVP:
 
 1. Ensure Supabase is running: `supabase start`
 2. Apply migrations: `supabase db reset`
-3. Seed data is automatically applied
+3. (Optional) Load test data for leaderboard:
+   ```sql
+   \i supabase/seed-scripts/seed_leaderboard_test_data.sql
+   ```
 4. Start Astro dev server: `npm run dev`
 5. Access endpoint: `http://localhost:3000/api/leaderboard`
+
+**Note**: The main `supabase/seed.sql` file is intentionally left empty. Test data is organized in `supabase/seed-scripts/` directory for better maintainability.
 
 ## API Documentation
 
