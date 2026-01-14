@@ -60,3 +60,29 @@ export const upcomingMatchesQuerySchema = z.object({
 
 export type UpcomingMatchesQuery = z.infer<typeof upcomingMatchesQuerySchema>;
 
+/**
+ * Validation schema for PUT /api/matches/[matchId]/bet path parameter
+ * Validates that matchId is a valid UUID string
+ */
+export const matchIdParamSchema = z.object({
+  matchId: z.string().uuid({ message: "matchId must be a valid UUID" }),
+});
+
+export type MatchIdParam = z.infer<typeof matchIdParamSchema>;
+
+/**
+ * Validation schema for PUT /api/matches/[matchId]/bet request body
+ * Validates homeScore and awayScore as non-negative integers
+ */
+export const betUpsertCommandSchema = z.object({
+  homeScore: z
+    .number({ required_error: "homeScore is required" })
+    .int({ message: "homeScore must be an integer" })
+    .min(0, { message: "homeScore must be non-negative" }),
+  awayScore: z
+    .number({ required_error: "awayScore is required" })
+    .int({ message: "awayScore must be an integer" })
+    .min(0, { message: "awayScore must be non-negative" }),
+});
+
+export type BetUpsertCommandValidated = z.infer<typeof betUpsertCommandSchema>;

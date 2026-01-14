@@ -7,13 +7,19 @@ This directory contains test scripts for the API endpoints.
 ### `test-upcoming-matches.mjs`
 Comprehensive manual test suite for the `/api/upcomingmatches` endpoint.
 
+### `test-match-bet.mjs`
+Comprehensive manual test suite for the `PUT /api/matches/[matchId]/bet` endpoint.
+
 **Usage:**
 ```bash
 # Make sure dev server is running
 npm run dev
 
-# Run tests
+# Run upcoming matches tests
 node tests/test-upcoming-matches.mjs
+
+# Run match bet tests
+node tests/test-match-bet.mjs
 ```
 
 ## Test Coverage
@@ -56,6 +62,36 @@ The test suite covers:
 - Invalid sort value
 - Invalid date format
 
+## Match Bet Tests (`test-match-bet.mjs`)
+
+The match bet test suite covers:
+
+### 1. Success Cases
+- Place new bet on scheduled match
+- Update existing bet with different scores
+- Place bet on live match
+
+### 2. Input Validation
+- Invalid matchId format (not UUID)
+- Negative scores
+- Non-integer scores
+- Missing required fields (homeScore, awayScore)
+
+### 3. Business Logic Guards
+- Match not found (404)
+- Betting locked for finished matches (403)
+- Betting deadline enforcement (future feature)
+
+### 4. Request Errors
+- Invalid JSON body
+- Malformed requests
+
+### 5. Response Validation
+- Correct HTTP status codes
+- Proper error response structure
+- Valid bet response with all required fields
+- Correct bet upsert behavior (insert vs update)
+
 ## Prerequisites
 
 Before running tests:
@@ -67,7 +103,7 @@ Before running tests:
 
 2. **Load Test Data**
    ```bash
-   node supabase/seed-scripts/load-test-data.mjs
+   node supabase/seed-scripts/seed-all.mjs
    ```
 
 3. **Start Dev Server**
@@ -96,8 +132,8 @@ All tests should pass with:
 
 To add new test cases:
 
-1. Add a new test function in `test-upcoming-matches.mjs`
-2. Call it from `runTests()` function
+1. Add a new test function in the appropriate test file (`test-upcoming-matches.mjs` or `test-match-bet.mjs`)
+2. Call it from the respective `runTests()` function
 3. Follow the existing pattern for consistency
 4. Document the test case in this README
 
