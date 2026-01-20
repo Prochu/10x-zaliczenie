@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Dashboard from "../components/Dashboard";
+
+const title = "Dashboard - BetBuddy";
+---
+
+<Layout title={title}>
+  <main class="min-h-screen bg-background">
+    <Dashboard client:load />
+  </main>
+</Layout>
