@@ -1,6 +1,14 @@
 import React from "react";
 
-export const EmptyState: React.FC = () => {
+interface EmptyStateProps {
+  message?: string;
+  description?: string;
+}
+
+export const EmptyState: React.FC<EmptyStateProps> = ({
+  message = "No upcoming matches",
+  description = "No upcoming matches to display. Please check back later.",
+}) => {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="mb-4">
@@ -19,8 +27,8 @@ export const EmptyState: React.FC = () => {
           />
         </svg>
       </div>
-      <h3 className="text-lg font-semibold text-foreground mb-2">No upcoming matches</h3>
-      <p className="text-muted-foreground max-w-md">No upcoming matches to display. Please check back later.</p>
+      <h3 className="text-lg font-semibold text-foreground mb-2">{message}</h3>
+      <p className="text-muted-foreground max-w-md">{description}</p>
     </div>
   );
 };

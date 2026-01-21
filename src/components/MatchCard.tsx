@@ -69,11 +69,19 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
         {/* Teams */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3 flex-1">
-            <img
-              src={match.homeTeamLogo}
-              alt={match.homeTeamName}
-              className="w-8 h-8 object-contain"
-            />
+            {match.homeTeamLogo ? (
+              <img
+                src={match.homeTeamLogo}
+                alt={match.homeTeamName}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <span className="text-xs font-bold text-muted-foreground">
+                  {match.homeTeamName.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
+            )}
             <span className="font-medium truncate">{match.homeTeamName}</span>
           </div>
 
@@ -85,11 +93,19 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
 
           <div className="flex items-center space-x-3 flex-1 justify-end">
             <span className="font-medium truncate">{match.awayTeamName}</span>
-            <img
-              src={match.awayTeamLogo}
-              alt={match.awayTeamName}
-              className="w-8 h-8 object-contain"
-            />
+            {match.awayTeamLogo ? (
+              <img
+                src={match.awayTeamLogo}
+                alt={match.awayTeamName}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <span className="text-xs font-bold text-muted-foreground">
+                  {match.awayTeamName.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
