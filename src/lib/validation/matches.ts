@@ -86,3 +86,75 @@ export const betUpsertCommandSchema = z.object({
 });
 
 export type BetUpsertCommandValidated = z.infer<typeof betUpsertCommandSchema>;
+
+/**
+ * Validation schema for GET /api/matches/history query parameters
+ * Validates pagination, sorting, and date range filtering for match history
+ */
+export const matchHistoryQuerySchema = z
+  .object({
+    // Pagination
+    page: z
+      .string()
+      .optional()
+      .default("1")
+      .transform((val) => parseInt(val, 10))
+      .pipe(z.number().int().min(1)),
+    pageSize: z
+      .string()
+      .optional()
+      .default("20")
+      .transform((val) => parseInt(val, 10))
+      .pipe(z.number().int().min(1).max(100)),
+
+    // Sorting (fixed to kickoff_time) with order
+    sort: z.literal("kickoff_time"),
+    order: z.enum(["desc", "asc"]).optional().default("desc"),
+
+    // Kickoff time range filters (ISO 8601 UTC timestamps)
+    from: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          try {
+            const date = new Date(val);
+            return !isNaN(date.getTime());
+          } catch {
+            return false;
+          }
+        },
+        { message: "Invalid ISO date format for 'from' parameter" }
+      ),
+    to: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          try {
+            const date = new Date(val);
+            return !isNaN(date.getTime());
+          } catch {
+            return false;
+          }
+        },
+        { message: "Invalid ISO date format for 'to' parameter" }
+      ),
+  })
+  .refine(
+    (data) => {
+      // Ensure from <= to when both are provided
+      if (data.from && data.to) {
+        return new Date(data.from) <= new Date(data.to);
+      }
+      return true;
+    },
+    {
+      message: "'from' date must be before or equal to 'to' date",
+      path: ["from"], // Attach error to 'from' field
+    }
+  );
+
+export type MatchHistoryQuery = z.infer<typeof matchHistoryQuerySchema>;
