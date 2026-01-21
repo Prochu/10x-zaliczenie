@@ -1,11 +1,14 @@
 ---
 import "../styles/global.css";
+import { Navigation } from "../components/Navigation";
 
 interface Props {
   title?: string;
+  showNavigation?: boolean;
 }
 
-const { title = "10x Astro Starter" } = Astro.props;
+const { title = "BetBuddy", showNavigation = false } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -18,6 +21,7 @@ const { title = "10x Astro Starter" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    {showNavigation && <Navigation currentPath={currentPath} client:load />}
     <slot />
   </body>
 </html>

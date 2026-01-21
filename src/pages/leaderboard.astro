@@ -53,8 +53,8 @@ if (error || !user) {
 }
 ---
 
-<Layout title={title}>
-  <main class="min-h-screen bg-background">
+<Layout title={title} showNavigation={true}>
+  <main class="min-h-screen bg-background pb-20 md:pb-8">
     <div class="max-w-7xl mx-auto px-4 py-8">
       <LeaderboardHeader totalPlayers={undefined} lastUpdated={undefined} client:load />
 

@@ -4,9 +4,10 @@ import { useMatchHistory } from "./hooks/useMatchHistory";
 import MatchHistoryHeader from "./MatchHistoryHeader";
 import MatchHistoryList from "./MatchHistoryList";
 import { EmptyState } from "./EmptyState";
+import { MatchHistorySkeleton } from "./MatchHistorySkeleton";
 
 interface MatchHistoryPageProps {
-  currentUser: MeDto;
+  currentUser?: MeDto;
 }
 
 const MatchHistoryPage: React.FC<MatchHistoryPageProps> = () => {
@@ -21,18 +22,25 @@ const MatchHistoryPage: React.FC<MatchHistoryPageProps> = () => {
 
       <MatchHistoryHeader filters={matchHistory.filters} onFiltersChange={matchHistory.updateFilters} />
 
-      <MatchHistoryList
-        items={matchHistory.items}
-        hasMore={matchHistory.hasMore}
-        isLoadingMore={matchHistory.isLoading}
-        onLoadMore={matchHistory.loadMore}
-      />
+      {/* Show skeleton during initial load */}
+      {matchHistory.isLoading && matchHistory.items.length === 0 ? (
+        <MatchHistorySkeleton count={5} />
+      ) : (
+        <>
+          <MatchHistoryList
+            items={matchHistory.items}
+            hasMore={matchHistory.hasMore}
+            isLoadingMore={matchHistory.isLoading}
+            onLoadMore={matchHistory.loadMore}
+          />
 
-      {!matchHistory.isLoading && matchHistory.items.length === 0 && (
-        <EmptyState
-          message="No match history available"
-          description="You haven't placed any bets yet. Start betting on upcoming matches to see your history here."
-        />
+          {!matchHistory.isLoading && matchHistory.items.length === 0 && (
+            <EmptyState
+              message="No match history available"
+              description="You haven't placed any bets yet. Start betting on upcoming matches to see your history here."
+            />
+          )}
+        </>
       )}
 
       {matchHistory.error && (

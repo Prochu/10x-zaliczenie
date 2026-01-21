@@ -5,8 +5,8 @@ import Dashboard from "../components/Dashboard";
 const title = "Dashboard - BetBuddy";
 ---
 
-<Layout title={title}>
-  <main class="min-h-screen bg-background">
+<Layout title={title} showNavigation={true}>
+  <main class="min-h-screen bg-background pb-20 md:pb-8">
     <Dashboard client:load />
   </main>
 </Layout>
