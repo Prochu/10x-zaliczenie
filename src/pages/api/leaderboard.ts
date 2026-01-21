@@ -20,6 +20,7 @@ const leaderboardQuerySchema = z.object({
     .transform((val) => parseInt(val, 10))
     .pipe(z.number().int().min(1).max(100)),
   sort: z.enum(["points_desc"]).optional().default("points_desc"),
+  groupId: z.string().uuid().optional(),
 });
 
 export const GET: APIRoute = async ({ locals, url }) => {
@@ -30,6 +31,7 @@ export const GET: APIRoute = async ({ locals, url }) => {
     page: url.searchParams.get("page") || undefined,
     pageSize: url.searchParams.get("pageSize") || undefined,
     sort: url.searchParams.get("sort") || undefined,
+    groupId: url.searchParams.get("groupId") || undefined,
   };
 
   const parseResult = leaderboardQuerySchema.safeParse(queryParams);
@@ -50,9 +52,40 @@ export const GET: APIRoute = async ({ locals, url }) => {
 
   const validatedQuery = parseResult.data;
 
+  // If groupId is not provided, fetch the default group
+  let groupId = validatedQuery.groupId;
+  if (!groupId) {
+    const { data: defaultGroup, error: groupError } = await supabase
+      .from("groups")
+      .select("id")
+      .eq("is_default", true)
+      .single();
+
+    if (groupError || !defaultGroup) {
+      console.error("Error fetching default group:", groupError);
+      return new Response(
+        JSON.stringify({
+          error: "Internal Server Error",
+          message: "No default group found",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+    groupId = defaultGroup.id;
+  }
+
   // Call service to get leaderboard data
   try {
-    const result = await getLeaderboard(validatedQuery, supabase);
+    const result = await getLeaderboard(
+      {
+        ...validatedQuery,
+        groupId,
+      },
+      supabase
+    );
 
     const response: LeaderboardResponse = {
       items: result.items,

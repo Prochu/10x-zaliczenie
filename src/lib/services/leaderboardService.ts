@@ -5,6 +5,7 @@ export interface LeaderboardQuery {
   page: number;
   pageSize: number;
   sort: "points_desc";
+  groupId: string;
 }
 
 export interface LeaderboardServiceResult {
@@ -20,12 +21,13 @@ export async function getLeaderboard(
   query: LeaderboardQuery,
   supabase: SupabaseClient
 ): Promise<LeaderboardServiceResult> {
-  const { page, pageSize } = query;
+  const { page, pageSize, groupId } = query;
   const offset = (page - 1) * pageSize;
 
   // Execute SQL query with window functions for ranking and pagination
   // Uses DENSE_RANK to handle ties properly (users with same points get same rank)
   const { data, error } = await supabase.rpc("get_leaderboard_paginated", {
+    p_group_id: groupId,
     p_limit: pageSize,
     p_offset: offset,
   });

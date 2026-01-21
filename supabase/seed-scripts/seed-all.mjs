@@ -55,7 +55,7 @@ async function seedAll() {
     console.log("📊 Summary:");
     console.log("  - 3 finished matches (for leaderboard)");
     console.log("  - 6 upcoming matches (4 scheduled + 2 live)");
-    console.log("  - 15 bets for finished matches (with points)");
+    console.log("  - 12 bets for finished matches (with points)");
     console.log("  - 7 bets for upcoming matches (without points)");
     console.log("\n💡 Note: Users should be created separately using seed-users.mjs");
     console.log("\n🎉 Ready for testing!\n");
@@ -65,20 +65,45 @@ async function seedAll() {
   }
 }
 
+// Helper function to get user IDs by nickname
+async function getUserIds() {
+  const { data: profiles, error } = await supabase
+    .from("profiles")
+    .select("id, nickname")
+    .in("nickname", ["Alice", "Bob", "Charlie", "Diana", "Eve"]);
+
+  if (error) throw new Error(`Failed to fetch user profiles: ${error.message}`);
+
+  const userMap = {};
+  profiles.forEach((profile) => {
+    userMap[profile.nickname] = profile.id;
+  });
+
+  return {
+    alice: userMap["Alice"],
+    bob: userMap["Bob"],
+    charlie: userMap["Charlie"],
+    diana: userMap["Diana"],
+    eve: userMap["Eve"],
+  };
+}
+
 async function cleanupTestData() {
   console.log("🧹 Cleaning up existing test matches and bets...");
 
   try {
-    // Delete in reverse dependency order to handle foreign keys properly
+    // Get actual user IDs first
+    const userIds = await getUserIds();
+    const userIdList = Object.values(userIds).filter((id) => id);
 
-    // Delete bets first (depends on users and matches)
-    const { error: betsError } = await supabase
-      .from("bets")
-      .delete()
-      .or(
-        "user_id.eq.57e03949-57b7-41e4-8b55-a6c6caf1cd98,user_id.eq.67e03949-57b7-41e4-8b55-a6c6caf1cd99,user_id.eq.77e03949-57b7-41e4-8b55-a6c6caf1cd9a,user_id.eq.87e03949-57b7-41e4-8b55-a6c6caf1cd9b,user_id.eq.97e03949-57b7-41e4-8b55-a6c6caf1cd9c"
-      );
-    if (betsError) throw new Error(`Failed to delete bets: ${betsError.message}`);
+    if (userIdList.length === 0) {
+      console.log("  No test users found - skipping bet cleanup");
+    } else {
+      // Delete bets first (depends on users and matches)
+      const userIdConditions = userIdList.map((id) => `user_id.eq.${id}`).join(",");
+      const { error: betsError } = await supabase.from("bets").delete().or(userIdConditions);
+      if (betsError) throw new Error(`Failed to delete bets: ${betsError.message}`);
+    }
 
     // Delete matches
     const { error: matchesError } = await supabase
@@ -229,24 +254,27 @@ async function seedUpcomingMatches() {
 }
 
 async function seedLeaderboardBets() {
+  // Get actual user IDs
+  const userIds = await getUserIds();
+
   const bets = [
     // Alice: 8 points
     {
-      user_id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98",
+      user_id: userIds.alice,
       match_id: "11111111-1111-1111-1111-111111111111",
       home_score: 2,
       away_score: 1,
       points_awarded: 4,
     },
     {
-      user_id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98",
+      user_id: userIds.alice,
       match_id: "22222222-2222-2222-2222-222222222222",
       home_score: 3,
       away_score: 3,
       points_awarded: 2,
     },
     {
-      user_id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98",
+      user_id: userIds.alice,
       match_id: "33333333-3333-3333-3333-333333333333",
       home_score: 2,
       away_score: 0,
@@ -254,21 +282,21 @@ async function seedLeaderboardBets() {
     },
     // Bob: 5 points
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "11111111-1111-1111-1111-111111111111",
       home_score: 3,
       away_score: 2,
       points_awarded: 2,
     },
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "22222222-2222-2222-2222-222222222222",
       home_score: 2,
       away_score: 2,
       points_awarded: 2,
     },
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "33333333-3333-3333-3333-333333333333",
       home_score: 2,
       away_score: 1,
@@ -276,21 +304,21 @@ async function seedLeaderboardBets() {
     },
     // Charlie: 5 points
     {
-      user_id: "77e03949-57b7-41e4-8b55-a6c6caf1cd9a",
+      user_id: userIds.charlie,
       match_id: "11111111-1111-1111-1111-111111111111",
       home_score: 1,
       away_score: 0,
       points_awarded: 1,
     },
     {
-      user_id: "77e03949-57b7-41e4-8b55-a6c6caf1cd9a",
+      user_id: userIds.charlie,
       match_id: "22222222-2222-2222-2222-222222222222",
       home_score: 3,
       away_score: 3,
       points_awarded: 4,
     },
     {
-      user_id: "77e03949-57b7-41e4-8b55-a6c6caf1cd9a",
+      user_id: userIds.charlie,
       match_id: "33333333-3333-3333-3333-333333333333",
       home_score: 0,
       away_score: 0,
@@ -298,21 +326,21 @@ async function seedLeaderboardBets() {
     },
     // Diana: 2 points
     {
-      user_id: "87e03949-57b7-41e4-8b55-a6c6caf1cd9b",
+      user_id: userIds.diana,
       match_id: "11111111-1111-1111-1111-111111111111",
       home_score: 1,
       away_score: 1,
       points_awarded: 0,
     },
     {
-      user_id: "87e03949-57b7-41e4-8b55-a6c6caf1cd9b",
+      user_id: userIds.diana,
       match_id: "22222222-2222-2222-2222-222222222222",
       home_score: 1,
       away_score: 1,
       points_awarded: 0,
     },
     {
-      user_id: "87e03949-57b7-41e4-8b55-a6c6caf1cd9b",
+      user_id: userIds.diana,
       match_id: "33333333-3333-3333-3333-333333333333",
       home_score: 2,
       away_score: 0,
@@ -328,17 +356,20 @@ async function seedLeaderboardBets() {
 }
 
 async function seedUpcomingBets() {
+  // Get actual user IDs
+  const userIds = await getUserIds();
+
   const bets = [
     // Alice
     {
-      user_id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98",
+      user_id: userIds.alice,
       match_id: "44444444-4444-4444-4444-444444444444",
       home_score: 2,
       away_score: 1,
       points_awarded: null,
     },
     {
-      user_id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98",
+      user_id: userIds.alice,
       match_id: "55555555-5555-5555-5555-555555555555",
       home_score: 1,
       away_score: 1,
@@ -346,21 +377,21 @@ async function seedUpcomingBets() {
     },
     // Bob
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "44444444-4444-4444-4444-444444444444",
       home_score: 3,
       away_score: 0,
       points_awarded: null,
     },
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "66666666-6666-6666-6666-666666666666",
       home_score: 2,
       away_score: 2,
       points_awarded: null,
     },
     {
-      user_id: "67e03949-57b7-41e4-8b55-a6c6caf1cd99",
+      user_id: userIds.bob,
       match_id: "77777777-7777-7777-7777-777777777777",
       home_score: 1,
       away_score: 0,
@@ -368,14 +399,14 @@ async function seedUpcomingBets() {
     },
     // Charlie
     {
-      user_id: "77e03949-57b7-41e4-8b55-a6c6caf1cd9a",
+      user_id: userIds.charlie,
       match_id: "88888888-8888-8888-8888-888888888888",
       home_score: 2,
       away_score: 2,
       points_awarded: null,
     },
     {
-      user_id: "77e03949-57b7-41e4-8b55-a6c6caf1cd9a",
+      user_id: userIds.charlie,
       match_id: "55555555-5555-5555-5555-555555555555",
       home_score: 0,
       away_score: 2,

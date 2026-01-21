@@ -157,9 +157,7 @@ export interface LeaderboardEntryDto {
   matchesBet: number;
 }
 
-export type LeaderboardResponse = PaginatedItems<LeaderboardEntryDto> & {
-  data?: LeaderboardEntryDto[];
-};
+export type LeaderboardResponse = PaginatedItems<LeaderboardEntryDto>;
 
 export interface MatchHistoryItemDto {
   match: MatchSummaryDto;

@@ -3,6 +3,7 @@
 -- Uses window functions to calculate ranks and total count in a single query
 
 CREATE OR REPLACE FUNCTION get_leaderboard_paginated(
+  p_group_id UUID,
   p_limit INT DEFAULT 50,
   p_offset INT DEFAULT 0
 )
@@ -24,7 +25,9 @@ AS $$
       COALESCE(SUM(b.points_awarded), 0) AS total_points,
       COUNT(b.id) FILTER (WHERE b.points_awarded IS NOT NULL) AS matches_bet
     FROM profiles p
+    INNER JOIN user_groups ug ON p.id = ug.user_id
     LEFT JOIN bets b ON p.id = b.user_id
+    WHERE ug.group_id = p_group_id
     GROUP BY p.id, p.nickname
   ),
   ranked_users AS (
