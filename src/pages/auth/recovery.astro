@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { RecoveryForm } from "../../components/RecoveryForm";
+---
+
+<Layout title="Reset Password - BetBuddy">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+    <RecoveryForm client:load />
+  </div>
+</Layout>

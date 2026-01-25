@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import type { MeDto } from "../types";
+import { Button } from "./ui/button";
 
 interface NavigationProps {
   currentPath?: string;
+  user?: MeDto | null;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => {
+export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user = null }) => {
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const navItems = [
     {
       name: "Dashboard",
@@ -118,27 +122,67 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => 
               ))}
             </div>
 
-            {/* Right Side - User Menu Placeholder */}
+            {/* Right Side - User Menu */}
             <div className="flex items-center space-x-4">
-              <button
-                className="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110"
-                aria-label="User menu"
-              >
-                <svg
-                  className="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </button>
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-105"
+                    aria-label="User menu"
+                    aria-expanded={showUserMenu}
+                  >
+                    <svg
+                      className="w-8 h-8"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium">{user.nickname}</span>
+                  </button>
+
+                  {showUserMenu && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setShowUserMenu(false)}
+                        aria-hidden="true"
+                      />
+                      <div className="absolute right-0 mt-2 w-48 bg-card border rounded-lg shadow-lg z-20 py-1">
+                        {user.isAdmin && (
+                          <a
+                            href="/admin"
+                            className="block px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
+                          >
+                            Admin Panel
+                          </a>
+                        )}
+                        <button
+                          onClick={() => {
+                            // TODO: Implement logout
+                            console.log("Logout");
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+                        >
+                          Sign out
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <Button asChild variant="default" size="sm">
+                  <a href="/auth/login">Sign in</a>
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -162,7 +206,86 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => 
               <span className="text-xs mt-1 font-medium">{item.name}</span>
             </a>
           ))}
+          
+          {/* Mobile User Menu */}
+          {user ? (
+            <button
+              onClick={() => setShowUserMenu(!showUserMenu)}
+              className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-200 text-muted-foreground"
+              aria-label="User menu"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span className="text-xs mt-1 font-medium">Profile</span>
+            </button>
+          ) : (
+            <a
+              href="/auth/login"
+              className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-200 text-muted-foreground"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
+              </svg>
+              <span className="text-xs mt-1 font-medium">Login</span>
+            </a>
+          )}
         </div>
+        
+        {/* Mobile User Menu Dropdown */}
+        {showUserMenu && user && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setShowUserMenu(false)}
+              aria-hidden="true"
+            />
+            <div className="absolute bottom-full right-0 left-0 mb-2 mx-4 bg-card border rounded-lg shadow-lg z-20 py-2">
+              <div className="px-4 py-2 border-b">
+                <p className="text-sm font-medium">{user.nickname}</p>
+              </div>
+              {user.isAdmin && (
+                <a
+                  href="/admin"
+                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
+                >
+                  Admin Panel
+                </a>
+              )}
+              <button
+                onClick={() => {
+                  // TODO: Implement logout
+                  console.log("Logout");
+                }}
+                className="block w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+              >
+                Sign out
+              </button>
+            </div>
+          </>
+        )}
       </nav>
 
       {/* Mobile Bottom Padding - to prevent content from being hidden behind bottom nav */}

@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { RegisterForm } from "../../components/RegisterForm";
+
+// TODO: Check if user is already authenticated
+// If authenticated, redirect to dashboard
+// if (Astro.locals.user) {
+//   return Astro.redirect("/dashboard");
+// }
+---
+
+<Layout title="Create Account - BetBuddy">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+    <RegisterForm client:load />
+  </div>
+</Layout>

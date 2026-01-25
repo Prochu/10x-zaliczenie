@@ -1,0 +1,36 @@
+---
+// This endpoint handles the OAuth callback from Supabase Auth
+// It exchanges the code for a session and redirects appropriately
+
+// TODO: Implement Supabase Auth callback handler
+// 1. Get code from query params
+// 2. Exchange code for session using supabase.auth.exchangeCodeForSession()
+// 3. Set session cookies
+// 4. Check if user has profile
+// 5. Redirect to appropriate page:
+//    - If no profile: redirect to /auth/set-nickname or handle profile creation
+//    - If has profile and 'next' param: redirect to next URL
+//    - Otherwise: redirect to /dashboard
+
+const { searchParams } = Astro.url;
+const code = searchParams.get("code");
+const next = searchParams.get("next") || "/dashboard";
+const error = searchParams.get("error");
+const errorDescription = searchParams.get("error_description");
+
+if (error) {
+  console.error("Auth callback error:", error, errorDescription);
+  return Astro.redirect(`/auth/login?error=${encodeURIComponent(errorDescription || error)}`);
+}
+
+if (!code) {
+  return Astro.redirect("/auth/login?error=missing_code");
+}
+
+// TODO: Implement the actual callback logic here
+console.log("Auth callback - code received:", code);
+console.log("Next URL:", next);
+
+// For now, just redirect to login
+return Astro.redirect("/auth/login");
+---
