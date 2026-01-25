@@ -9,8 +9,8 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 ## 3. Functional Requirements
 
 ### 3.1. User Management
-- R-001: Users must register and log in using third-party authentication providers (e.g., Google, Facebook, Apple).
-- R-002: Upon first login, users must create a unique, alphanumeric nickname (3-15 characters) to be identified in the application.
+- R-001: Users must register and log in to be able to use full system functionality.
+- R-002: When registering users must provide an email, passowrd and nickname (3-15 characters) to be identified in the application.
 - R-003: For the MVP, all registered users will belong to a single, global user group.
 - R-004: An 'Admin' role will exist, which must be assigned manually in the database.
 
@@ -20,6 +20,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 - R-007: Betting for a specific match must be automatically locked 5 minutes before the official start time.
 - R-008: A countdown timer to the betting deadline must be clearly visible for each match.
 - R-009: All match times must be displayed in the user's local time zone.
+- R-0: Betting is not available for unathenticated users
 
 ### 3.3. Scoring and Leaderboard
 - R-010: The system will use a mutually exclusive scoring system based on regular match time (excluding extra time and penalties):
@@ -65,30 +66,29 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 
 ### User Registration and Management
 - ID: US-001
-- Title: New User Registration via Third-Party Authentication
-- Description: As a new user, I want to register for BetBuddy using my existing Google (or other social) account so that I can sign up quickly and securely without creating a new password.
-- Acceptance Criteria:
-    - Given I am on the BetBuddy landing page, I can see options to "Sign up with Google/Facebook/Apple".
-    - When I click a provider, I am redirected to their authentication page.
-    - After successfully authenticating, I am redirected back to the BetBuddy application.
-    - A new user account is created in the BetBuddy database linked to my third-party account.
+- Title: User registration and access.
+- Description: As a user, I want to be able to register and log in to the system in a way that ensures the security of my data.
+- Acceptance criteria:
+  - Login and registration take place on dedicated pages.
+  - Logging in requires an email address and password.
+  - Registration requires an email address, nickname, password, and password confirmation.
+  - Unregistered user can only display a dashboard without the possibility to place a bet and with no info about previously placed bets
+  - Only registered user can see a leaderboard.
+  - Only registered user can place a bet.
+  - Only registered user can see a match history.
+  - Only registered user can see their previous bet and score for each match.
+  - The user CAN display a list of planned and live matches withouth the information about placed bet and with no possibility to place a bet. 
+  - The user can log into the system using the button in the upper right corner.
+  - The user can log out of the system using the button in the upper right corner 
+  - We do not use external login services (e.g., Google, GitHub).
+  - Password recovery should be possible.
 
-- ID: US-002
-- Title: First-Time Login and Nickname Creation
-- Description: As a new user who has just authenticated for the first time, I want to be prompted to create a unique nickname so that I can be identified on the leaderboard.
-- Acceptance Criteria:
-    - Given I have authenticated for the first time, I am redirected to a "Create Nickname" page.
-    - The page must have an input field for my desired nickname.
-    - The nickname must be validated to be between 3 and 15 characters.
-    - The nickname must be validated to contain only alphanumeric characters (a-z, A-Z, 0-9).
-    - The system checks if the nickname is already in use and displays an error if it is.
-    - Upon submitting a valid and unique nickname, it is saved to my profile, and I am directed to the main application dashboard.
 
 - ID: US-003
 - Title: Returning User Login
-- Description: As a returning user, I want to log in quickly using the same third-party account I registered with so I can access my account.
+- Description: As a returning user, I want to log in quickly using the same account I registered with so I can access my account.
 - Acceptance Criteria:
-    - Given I am a registered user and am on the login page, I can select the third-party provider I used to register.
+    - Given I am a registered user and am on the login page, I can enter my email and password.
     - When I authenticate successfully, I am logged into my account and redirected to the main dashboard.
     - I do not need to enter a nickname again.
 
@@ -97,6 +97,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
 - Title: View Upcoming Matches
 - Description: As a user, I want to see a clear list of upcoming Champions League matches so I can decide which ones to bet on.
 - Acceptance Criteria:
+
     - Given I am logged in, the main dashboard displays a list of upcoming matches.
     - Each match entry shows the two competing teams, the match date, and the kickoff time in my local time zone.
     - For each match, there are input fields for me to enter my score prediction.
@@ -140,6 +141,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
     - When I enter my prediction, a "Save" or "Submit" button becomes active.
     - After saving, I receive a confirmation that my bet has been placed, and the input fields show my saved prediction.
     - The system logs the bet placement in the database with timestamp, user ID, match ID, and prediction values.
+    - Betting is only available for registered users
 
 - ID: US-010
 - Title: Edit a Bet
@@ -150,6 +152,7 @@ Friends who enjoy betting on Champions League matches often rely on manual metho
     - The system updates my previous bet with the new one.
     - I can repeat this process as many times as I want before the betting deadline.
     - Each bet update is logged in the database with timestamp, user ID, match ID, and the new prediction values.
+    - Editing a bet is only available for registered users
 
 - ID: US-011
 - Title: Betting is Locked After Deadline
