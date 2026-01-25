@@ -55,7 +55,7 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
   };
 
   return (
-    <Card>
+    <Card className="transition-shadow hover:shadow-sm">
       <CardContent className="pt-6">
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <div className="flex-1">
@@ -67,7 +67,7 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
               type="date"
               value={formatDateForInput(localFilters.from)}
               onChange={(e) => handleDateChange("from", e.target.value)}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             />
           </div>
 
@@ -80,7 +80,7 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
               type="date"
               value={formatDateForInput(localFilters.to)}
               onChange={(e) => handleDateChange("to", e.target.value)}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             />
           </div>
 
@@ -92,7 +92,7 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
               id="sort-order"
               value={localFilters.sortOrder}
               onChange={(e) => handleSortOrderChange(e.target.value as "asc" | "desc")}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             >
               <option value="desc">Newest First</option>
               <option value="asc">Oldest First</option>
@@ -100,13 +100,17 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
           </div>
 
           <div className="flex-shrink-0">
-            <Button onClick={validateAndApplyFilters} className="w-full md:w-auto">
+            <Button onClick={validateAndApplyFilters} className="w-full md:w-auto transition-all hover:scale-105">
               Apply Filters
             </Button>
           </div>
         </div>
 
-        {validationError && <div className="mt-4 text-sm text-destructive">{validationError}</div>}
+        {validationError && (
+          <div className="mt-4 text-sm text-destructive animate-in fade-in slide-in-from-top duration-200">
+            {validationError}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

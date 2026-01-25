@@ -105,10 +105,10 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => 
                 <a
                   key={item.path}
                   href={item.path}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2 ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
                     isActive(item.path)
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      ? "bg-primary/10 text-primary scale-105"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:scale-105"
                   }`}
                   aria-current={isActive(item.path) ? "page" : undefined}
                 >
@@ -121,7 +121,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => 
             {/* Right Side - User Menu Placeholder */}
             <div className="flex items-center space-x-4">
               <button
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110"
                 aria-label="User menu"
               >
                 <svg
@@ -145,18 +145,18 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/" }) => 
       </nav>
 
       {/* Mobile Navigation - Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50 backdrop-blur-sm">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => (
             <a
               key={item.path}
               href={item.path}
-              className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+              className={`flex flex-col items-center justify-center flex-1 h-full transition-all duration-200 ${
                 isActive(item.path) ? "text-primary" : "text-muted-foreground"
               }`}
               aria-current={isActive(item.path) ? "page" : undefined}
             >
-              <div className={`${isActive(item.path) ? "scale-110" : ""} transition-transform`}>
+              <div className={`${isActive(item.path) ? "scale-110" : ""} transition-transform duration-200`}>
                 {item.icon}
               </div>
               <span className="text-xs mt-1 font-medium">{item.name}</span>

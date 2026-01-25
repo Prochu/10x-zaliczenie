@@ -65,7 +65,7 @@ const MatchHistoryList: React.FC<MatchHistoryListProps> = ({ items, hasMore, isL
         <div className="flex justify-center py-8">
           <button
             onClick={handleLoadMoreClick}
-            className="px-6 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
+            className="px-6 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-all hover:scale-105 duration-200"
           >
             Load More Matches
           </button>

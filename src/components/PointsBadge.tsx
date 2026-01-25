@@ -3,10 +3,34 @@ import { Badge } from "./ui/badge";
 
 interface PointsBadgeProps {
   points: number | null | undefined;
+  matchStatus?: string;
   className?: string;
 }
 
-export const PointsBadge: React.FC<PointsBadgeProps> = ({ points, className = "" }) => {
+export const PointsBadge: React.FC<PointsBadgeProps> = ({ points, matchStatus, className = "" }) => {
+  // Handle cancelled or postponed matches
+  if (matchStatus === "cancelled") {
+    return (
+      <Badge
+        variant="outline"
+        className={`text-xs font-semibold bg-gray-100 text-gray-700 border-gray-300 ${className}`}
+      >
+        Cancelled
+      </Badge>
+    );
+  }
+
+  if (matchStatus === "postponed") {
+    return (
+      <Badge
+        variant="outline"
+        className={`text-xs font-semibold bg-yellow-100 text-yellow-700 border-yellow-300 ${className}`}
+      >
+        Postponed
+      </Badge>
+    );
+  }
+
   // No prediction made
   if (points === null || points === undefined) {
     return (

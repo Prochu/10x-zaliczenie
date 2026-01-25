@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { matchHistoryQuerySchema } from "../../../lib/validation/matches";
 import { getHistory } from "../../../lib/services/matchHistoryService";
 import type { MatchHistoryResponse } from "../../../types";
+import { DEFAULT_USER_ID } from "@/db/supabase.client";
 
 export const prerender = false;
 
@@ -24,23 +25,23 @@ export const GET: APIRoute = async ({ locals, url }) => {
   const supabase = locals.supabase;
 
   // 1. Verify authentication - get current user
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  //   error: authError,
+  // } = await supabase.auth.getUser();
 
-  if (authError || !user) {
-    return new Response(
-      JSON.stringify({
-        error: "unauthenticated",
-        message: "Authentication required",
-      }),
-      {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-  }
+  // if (authError || !user) {
+  //   return new Response(
+  //     JSON.stringify({
+  //       error: "unauthenticated",
+  //       message: "Authentication required",
+  //     }),
+  //     {
+  //       status: 401,
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  // }
 
   // 2. Validate query parameters
   const queryParams = {
@@ -72,7 +73,8 @@ export const GET: APIRoute = async ({ locals, url }) => {
 
   // 3. Call service to fetch match history
   try {
-    const result = await getHistory(validatedQuery, supabase, user.id);
+    //const result = await getHistory(validatedQuery, supabase, user.id);
+    const result = await getHistory(validatedQuery, supabase, DEFAULT_USER_ID);
 
     const response: MatchHistoryResponse = {
       items: result.items,

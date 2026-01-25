@@ -22,7 +22,7 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex-1">
@@ -30,18 +30,18 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
           </div>
 
           <div className="flex items-center space-x-3 ml-4">
-            <PointsBadge points={match.pointsAwarded} />
+            <PointsBadge points={match.pointsAwarded} matchStatus={match.matchStatus} />
 
             {/* Mobile expand/collapse button */}
             <Button
               variant="ghost"
               size="sm"
               onClick={handleToggle}
-              className="md:hidden"
+              className="md:hidden transition-transform hover:scale-110"
               aria-label={expanded ? "Collapse details" : "Expand details"}
             >
               <svg
-                className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+                className={`w-4 h-4 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
       </CardHeader>
 
       {/* Desktop view - always show prediction details */}
-      <div className="hidden md:block">
+      <div className="hidden md:block transition-all">
         <CardContent className="pt-0">
           <UserPredictionDisplay
             prediction={{
@@ -69,7 +69,7 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
 
       {/* Mobile view - expandable prediction details */}
       {expanded && (
-        <div className="md:hidden">
+        <div className="md:hidden animate-in slide-in-from-top duration-200">
           <CardContent className="pt-0 border-t">
             <UserPredictionDisplay
               prediction={{
