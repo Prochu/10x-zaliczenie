@@ -12,11 +12,7 @@ export const prerender = false;
  */
 export const GET: APIRoute = async ({ locals, url }) => {
   const supabase = locals.supabase;
-
-  // 1. Get current user (optional - for including their bets)
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = locals.user;
 
   // 2. Validate query parameters
   const queryParams = {

@@ -2,21 +2,18 @@
 // This endpoint handles the OAuth callback from Supabase Auth
 // It exchanges the code for a session and redirects appropriately
 
-// TODO: Implement Supabase Auth callback handler
-// 1. Get code from query params
-// 2. Exchange code for session using supabase.auth.exchangeCodeForSession()
-// 3. Set session cookies
-// 4. Check if user has profile
-// 5. Redirect to appropriate page:
-//    - If no profile: redirect to /auth/set-nickname or handle profile creation
-//    - If has profile and 'next' param: redirect to next URL
-//    - Otherwise: redirect to /dashboard
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "../../db/database.types";
+
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
 
 const { searchParams } = Astro.url;
 const code = searchParams.get("code");
 const next = searchParams.get("next") || "/dashboard";
 const error = searchParams.get("error");
 const errorDescription = searchParams.get("error_description");
+const type = searchParams.get("type");
 
 if (error) {
   console.error("Auth callback error:", error, errorDescription);
@@ -24,13 +21,46 @@ if (error) {
 }
 
 if (!code) {
+  // If no code, check if this is a password reset flow
+  if (type === "recovery") {
+    return Astro.redirect("/auth/reset-password");
+  }
   return Astro.redirect("/auth/login?error=missing_code");
 }
 
-// TODO: Implement the actual callback logic here
-console.log("Auth callback - code received:", code);
-console.log("Next URL:", next);
+try {
+  // Create Supabase client
+  const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
-// For now, just redirect to login
-return Astro.redirect("/auth/login");
+  // Exchange code for session
+  const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+  if (exchangeError || !data.session) {
+    console.error("Code exchange error:", exchangeError);
+    return Astro.redirect("/auth/login?error=exchange_failed");
+  }
+
+  // Set session cookies
+  Astro.cookies.set("sb-access-token", data.session.access_token, {
+    path: "/",
+    httpOnly: true,
+    secure: import.meta.env.PROD,
+    sameSite: "lax",
+    maxAge: data.session.expires_in,
+  });
+
+  Astro.cookies.set("sb-refresh-token", data.session.refresh_token, {
+    path: "/",
+    httpOnly: true,
+    secure: import.meta.env.PROD,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  });
+
+  // Redirect to the appropriate page
+  return Astro.redirect(next);
+} catch (err) {
+  console.error("Callback error:", err);
+  return Astro.redirect("/auth/login?error=callback_failed");
+}
 ---

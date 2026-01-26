@@ -18,14 +18,30 @@ export const RecoveryForm: React.FC = () => {
     setSuccess(false);
     setIsLoading(true);
 
-    // TODO: Implement Supabase password recovery
-    console.log("Password recovery request:", { email });
+    try {
+      const response = await fetch("/api/auth/recovery", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    // Placeholder for now
-    setTimeout(() => {
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Failed to send recovery email");
+        setIsLoading(false);
+        return;
+      }
+
       setSuccess(true);
       setIsLoading(false);
-    }, 1000);
+    } catch (err) {
+      console.error("Recovery error:", err);
+      setError("An unexpected error occurred");
+      setIsLoading(false);
+    }
   };
 
   if (success) {

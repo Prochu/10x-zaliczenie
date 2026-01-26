@@ -62,14 +62,30 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
 
     setIsLoading(true);
 
-    // TODO: Implement Supabase authentication
-    console.log("Registration attempt:", { email, nickname, redirectTo });
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, nickname }),
+      });
 
-    // Placeholder for now
-    setTimeout(() => {
-      setError("Registration not yet implemented");
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Registration failed");
+        setIsLoading(false);
+        return;
+      }
+
+      // Redirect to the specified page
+      window.location.href = redirectTo;
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError("An unexpected error occurred");
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

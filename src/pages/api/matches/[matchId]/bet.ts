@@ -22,10 +22,21 @@ export const prerender = false;
  */
 export const PUT: APIRoute = async ({ locals, params, request }) => {
   const supabase = locals.supabase;
+  const user = locals.user;
 
-  // TEMP: Skip authentication for testing
-  // TODO: Re-enable authentication validation
-  const user = { id: "57e03949-57b7-41e4-8b55-a6c6caf1cd98" }; // Alice's user ID from seed data
+  // 1. Verify authentication
+  if (!user) {
+    return new Response(
+      JSON.stringify({
+        error: "unauthenticated",
+        message: "Authentication required to place bets",
+      }),
+      {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
 
   // 2. Validate path parameter (matchId)
   const paramParseResult = matchIdParamSchema.safeParse(params);

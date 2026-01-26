@@ -166,9 +166,17 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
                           </a>
                         )}
                         <button
-                          onClick={() => {
-                            // TODO: Implement logout
-                            console.log("Logout");
+                          onClick={async () => {
+                            try {
+                              const response = await fetch("/api/auth/logout", {
+                                method: "POST",
+                              });
+                              if (response.ok) {
+                                window.location.href = "/dashboard";
+                              }
+                            } catch (error) {
+                              console.error("Logout error:", error);
+                            }
                           }}
                           className="block w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
                         >
@@ -275,9 +283,17 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
                 </a>
               )}
               <button
-                onClick={() => {
-                  // TODO: Implement logout
-                  console.log("Logout");
+                onClick={async () => {
+                  try {
+                    const response = await fetch("/api/auth/logout", {
+                      method: "POST",
+                    });
+                    if (response.ok) {
+                      window.location.href = "/dashboard";
+                    }
+                  } catch (error) {
+                    console.error("Logout error:", error);
+                  }
                 }}
                 className="block w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
               >

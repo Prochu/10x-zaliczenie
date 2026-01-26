@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { supabaseClient } from "../db/supabase.client";
 
 export const ResetPasswordForm: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -39,14 +40,24 @@ export const ResetPasswordForm: React.FC = () => {
 
     setIsLoading(true);
 
-    // TODO: Implement Supabase password update
-    console.log("Password reset attempt");
+    try {
+      const { error: updateError } = await supabaseClient.auth.updateUser({
+        password,
+      });
 
-    // Placeholder for now
-    setTimeout(() => {
+      if (updateError) {
+        setError(updateError.message || "Failed to update password");
+        setIsLoading(false);
+        return;
+      }
+
       setSuccess(true);
       setIsLoading(false);
-    }, 1000);
+    } catch (err) {
+      console.error("Password reset error:", err);
+      setError("An unexpected error occurred");
+      setIsLoading(false);
+    }
   };
 
   if (success) {

@@ -3,9 +3,12 @@ import Layout from "../layouts/Layout.astro";
 import Dashboard from "../components/Dashboard";
 
 const title = "Dashboard - BetBuddy";
+
+// Get user from middleware (if authenticated)
+const user = Astro.locals.user;
 ---
 
-<Layout title={title} showNavigation={true}>
+<Layout title={title} showNavigation={true} user={user}>
   <main class="min-h-screen bg-background pb-20 md:pb-8">
     <Dashboard client:load />
   </main>

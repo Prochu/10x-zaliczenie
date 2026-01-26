@@ -3,13 +3,19 @@ import Layout from "../layouts/Layout.astro";
 import MatchHistoryPage from "../components/MatchHistoryPage";
 
 const title = "Match History - BetBuddy";
+
+// Check if user is authenticated
+const user = Astro.locals.user;
+
+if (!user) {
+  return Astro.redirect("/auth/login");
+}
 ---
 
-<Layout title={title} showNavigation={true}>
+<Layout title={title} showNavigation={true} user={user}>
   <main class="min-h-screen bg-background pb-20 md:pb-8">
     <div class="container mx-auto px-4 py-8">
       <MatchHistoryPage client:load />
     </div>
   </main>
 </Layout>
-

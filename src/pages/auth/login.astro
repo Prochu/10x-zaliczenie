@@ -2,11 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import { LoginForm } from "../../components/LoginForm";
 
-// TODO: Check if user is already authenticated
-// If authenticated, redirect to dashboard
-// if (Astro.locals.user) {
-//   return Astro.redirect("/dashboard");
-// }
+// Check if user is already authenticated
+if (Astro.locals.user) {
+  return Astro.redirect("/dashboard");
+}
 ---
 
 <Layout title="Sign In - BetBuddy">

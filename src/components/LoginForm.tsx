@@ -22,14 +22,30 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
     setError("");
     setIsLoading(true);
 
-    // TODO: Implement Supabase authentication
-    console.log("Login attempt:", { email, redirectTo });
-    
-    // Placeholder for now
-    setTimeout(() => {
-      setError("Authentication not yet implemented");
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Invalid credentials");
+        setIsLoading(false);
+        return;
+      }
+
+      // Redirect to the specified page
+      window.location.href = redirectTo;
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An unexpected error occurred");
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
