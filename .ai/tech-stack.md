@@ -13,4 +13,10 @@ CI/CD i Hosting:
 
 - Github Actions
 - DigitalOcean
+
+Testy:
+
+- Vitest (testy jednostkowe i integracyjne)
+- Playwright (testy E2E)
+- Supabase CLI (testy reguł RLS)
   </tech-stack>

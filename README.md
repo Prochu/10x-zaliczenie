@@ -57,6 +57,12 @@ The user interface follows Material Design principles with a light theme and blu
 - **GitHub Actions** - Continuous Integration and Deployment
 - **DigitalOcean** - Cloud hosting platform
 
+### Testing
+
+- **[Vitest](https://vitest.dev/)** - Unit and integration testing
+- **[Playwright](https://playwright.dev/)** - End-to-end (E2E) testing across multiple browsers
+- **Supabase CLI** - Testing database migrations and RLS rules
+
 ## Getting Started Locally
 
 ### Prerequisites
