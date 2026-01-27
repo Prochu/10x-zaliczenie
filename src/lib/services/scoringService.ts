@@ -69,9 +69,7 @@ export async function updateMatchBetsPoints(
   // 3. Bulk update bets
   // Note: Supabase doesn't have a great bulk update for different values by ID in one call,
   // but we can use upsert if we provide the IDs.
-  const { error: updateError } = await supabase
-    .from("bets")
-    .upsert(updates);
+  const { error: updateError } = await supabase.from("bets").upsert(updates);
 
   if (updateError) {
     throw new Error(`Failed to update points for bets: ${updateError.message}`);

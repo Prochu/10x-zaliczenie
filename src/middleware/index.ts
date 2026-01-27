@@ -29,7 +29,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const refreshToken = context.cookies.get("sb-refresh-token")?.value;
 
   if (accessToken && refreshToken) {
-    const { data: { session }, error } = await supabase.auth.setSession({
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.setSession({
       access_token: accessToken,
       refresh_token: refreshToken,
     });

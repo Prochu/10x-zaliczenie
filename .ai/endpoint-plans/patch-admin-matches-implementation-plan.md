@@ -1,10 +1,12 @@
 ## API Endpoint Implementation Plan: PATCH `/admin/matches/{matchId}/score`
 
 ### 1) Endpoint Overview
+
 - Purpose: Allow admins to set final (or corrected) match scores and status, then trigger bet points recalculation and leaderboard refresh.
 - Consumers: Admin UI only (protected). No public caching; executes immediate recalculation.
 
 ### 2) Request Details
+
 - HTTP Method: `PATCH`
 - URL: `/admin/matches/{matchId}/score`
 - Path params (required):
@@ -22,6 +24,7 @@
   - Validate `matchId` as UUID via zod regex/uuid.
 
 ### 3) Used Types
+
 - DTOs / Commands from `src/types.ts`:
   - `MatchStatus`, `MatchSummaryDto`
   - `AdminScoreUpdateCommand` (homeScore, awayScore, status)
@@ -31,6 +34,7 @@
   - Error response shape `{ error: string; message: string }`.
 
 ### 4) Response Details
+
 - Success 200:
   - Body: `{ "id": "uuid", "home_team_score": int, "away_team_score": int, "status": "finished", "updated_at": "ISO" }`
   - Can reuse `MatchSummaryDto` -> map `match` result to API shape.
@@ -42,6 +46,7 @@
   - 500 unexpected DB or recalculation failure.
 
 ### 5) Data Flow
+
 1. Authenticate request via Supabase JWT; get `profile` from locals (must exist).
 2. Authorize: check `profiles.is_admin` true; else 403.
 3. Parse `matchId` path; validate UUID.
@@ -56,6 +61,7 @@
 9. Return updated match fields (and optional `recalculatedBets` count).
 
 ### 6) Security Considerations
+
 - Authentication: require valid Supabase JWT; reject missing/expired -> 401.
 - Authorization: enforce `is_admin` from `profiles`; no RLS, so must guard explicitly.
 - Input validation: strict Zod schemas to prevent injection, negative scores, wrong status.
@@ -64,6 +70,7 @@
 - Ensure logging of admin action (app log) for audit; DB already has triggers only for bets, not matches.
 
 ### 7) Error Handling
+
 - Standard error JSON `{ error, message }`.
 - Map scenarios:
   - Validation failure -> 400 (`invalid_payload`).
@@ -74,12 +81,14 @@
 - Log server errors with context (matchId, userId) to app logger; no dedicated error table specified.
 
 ### 8) Performance Considerations
+
 - Use single DB transaction for update + bet recalculation to avoid inconsistent leaderboard.
 - Batch update bets via SQL set-based update; avoid per-row loops.
 - Consider background job if bets volume large; for MVP, inline recalculation acceptable.
 - Index usage: `bets.match_id`, `matches.id` already indexed.
 
 ### 9) Implementation Steps
+
 1. Add route file `src/pages/api/admin/matches/[matchId]/score.ts` (or adjust existing) with `export const prerender = false`.
 2. Define Zod schemas:
    - `paramsSchema` for `matchId` UUID.
@@ -102,6 +111,3 @@
 7. Add error mapping to status codes; ensure messages consistent with API plan.
 8. Add tests (unit for scoring helper; integration/e2e for endpoint if harness exists).
 9. Verify with manual call (e.g., curl) and ensure 200 + bet recalculations reflected.
-
-
-

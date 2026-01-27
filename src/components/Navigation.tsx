@@ -151,11 +151,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
 
                   {showUserMenu && (
                     <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowUserMenu(false)}
-                        aria-hidden="true"
-                      />
+                      <div className="fixed inset-0 z-10" onClick={() => setShowUserMenu(false)} aria-hidden="true" />
                       <div className="absolute right-0 mt-2 w-48 bg-card border rounded-lg shadow-lg z-20 py-1">
                         {user.isAdmin && (
                           <a
@@ -214,7 +210,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
               <span className="text-xs mt-1 font-medium">{item.name}</span>
             </a>
           ))}
-          
+
           {/* Mobile User Menu */}
           {user ? (
             <button
@@ -261,24 +257,17 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
             </a>
           )}
         </div>
-        
+
         {/* Mobile User Menu Dropdown */}
         {showUserMenu && user && (
           <>
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setShowUserMenu(false)}
-              aria-hidden="true"
-            />
+            <div className="fixed inset-0 z-10" onClick={() => setShowUserMenu(false)} aria-hidden="true" />
             <div className="absolute bottom-full right-0 left-0 mb-2 mx-4 bg-card border rounded-lg shadow-lg z-20 py-2">
               <div className="px-4 py-2 border-b">
                 <p className="text-sm font-medium">{user.nickname}</p>
               </div>
               {user.isAdmin && (
-                <a
-                  href="/admin"
-                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
-                >
+                <a href="/admin" className="block px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors">
                   Admin Panel
                 </a>
               )}
@@ -309,4 +298,3 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPath = "/", user 
     </>
   );
 };
-

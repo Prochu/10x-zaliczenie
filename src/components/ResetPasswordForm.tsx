@@ -65,21 +65,14 @@ export const ResetPasswordForm: React.FC = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Password updated</CardTitle>
-          <CardDescription>
-            Your password has been successfully changed
-          </CardDescription>
+          <CardDescription>Your password has been successfully changed</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="p-4 bg-primary/10 border border-primary/20 rounded-md">
-            <p className="text-sm">
-              You can now sign in with your new password.
-            </p>
+            <p className="text-sm">You can now sign in with your new password.</p>
           </div>
 
-          <Button
-            className="w-full"
-            onClick={() => window.location.href = "/auth/login"}
-          >
+          <Button className="w-full" onClick={() => (window.location.href = "/auth/login")}>
             Continue to sign in
           </Button>
         </CardContent>
@@ -91,9 +84,7 @@ export const ResetPasswordForm: React.FC = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">Set new password</CardTitle>
-        <CardDescription>
-          Enter your new password below
-        </CardDescription>
+        <CardDescription>Enter your new password below</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -132,11 +123,7 @@ export const ResetPasswordForm: React.FC = () => {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Updating password..." : "Update password"}
           </Button>
         </form>

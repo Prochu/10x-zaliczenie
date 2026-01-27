@@ -49,9 +49,7 @@ export const RecoveryForm: React.FC = () => {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Check your email</CardTitle>
-          <CardDescription>
-            We've sent you a password reset link
-          </CardDescription>
+          <CardDescription>We've sent you a password reset link</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="p-4 bg-primary/10 border border-primary/20 rounded-md">
@@ -65,18 +63,10 @@ export const RecoveryForm: React.FC = () => {
           </p>
 
           <div className="flex flex-col gap-2">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => setSuccess(false)}
-            >
+            <Button variant="outline" className="w-full" onClick={() => setSuccess(false)}>
               Send another link
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full"
-              onClick={() => window.location.href = "/auth/login"}
-            >
+            <Button variant="ghost" className="w-full" onClick={() => (window.location.href = "/auth/login")}>
               Back to sign in
             </Button>
           </div>
@@ -89,9 +79,7 @@ export const RecoveryForm: React.FC = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">Reset your password</CardTitle>
-        <CardDescription>
-          Enter your email address and we'll send you a reset link
-        </CardDescription>
+        <CardDescription>Enter your email address and we'll send you a reset link</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -115,20 +103,13 @@ export const RecoveryForm: React.FC = () => {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Sending link..." : "Send reset link"}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
             Remember your password?{" "}
-            <a
-              href="/auth/login"
-              className="text-primary hover:underline font-medium"
-            >
+            <a href="/auth/login" className="text-primary hover:underline font-medium">
               Sign in
             </a>
           </div>

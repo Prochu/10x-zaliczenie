@@ -9,12 +9,7 @@ interface ScoreStepperProps {
   label?: string;
 }
 
-export const ScoreStepper: React.FC<ScoreStepperProps> = ({
-  value,
-  onChange,
-  disabled = false,
-  label,
-}) => {
+export const ScoreStepper: React.FC<ScoreStepperProps> = ({ value, onChange, disabled = false, label }) => {
   const handleDecrement = () => {
     if (disabled) return;
     const newValue = Math.max(0, value - 1);
@@ -28,9 +23,7 @@ export const ScoreStepper: React.FC<ScoreStepperProps> = ({
 
   return (
     <div className="flex flex-col items-center space-y-1">
-      {label && (
-        <span className="text-xs text-muted-foreground">{label}</span>
-      )}
+      {label && <span className="text-xs text-muted-foreground">{label}</span>}
       <div className="flex items-center space-x-1">
         <Button
           variant="outline"
@@ -46,13 +39,7 @@ export const ScoreStepper: React.FC<ScoreStepperProps> = ({
           <span className="text-lg font-semibold">{value}</span>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleIncrement}
-          disabled={disabled}
-          className="h-8 w-8 p-0"
-        >
+        <Button variant="outline" size="sm" onClick={handleIncrement} disabled={disabled} className="h-8 w-8 p-0">
           <Plus className="h-3 w-3" />
         </Button>
       </div>

@@ -131,9 +131,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
               maxLength={15}
               pattern="[a-zA-Z0-9]+"
             />
-            <p className="text-xs text-muted-foreground">
-              This will be displayed on the leaderboard
-            </p>
+            <p className="text-xs text-muted-foreground">This will be displayed on the leaderboard</p>
           </div>
 
           <div className="space-y-2">
@@ -165,20 +163,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Creating account..." : "Create account"}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <a
-              href="/auth/login"
-              className="text-primary hover:underline font-medium"
-            >
+            <a href="/auth/login" className="text-primary hover:underline font-medium">
               Sign in
             </a>
           </div>

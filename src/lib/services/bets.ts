@@ -88,7 +88,8 @@ export async function upsertUserBet({
         ignoreDuplicates: false,
       }
     )
-    .select(`
+    .select(
+      `
       id,
       match_id,
       home_score,
@@ -96,7 +97,8 @@ export async function upsertUserBet({
       points_awarded,
       created_at,
       updated_at
-    `)
+    `
+    )
     .single();
 
   if (betError) {

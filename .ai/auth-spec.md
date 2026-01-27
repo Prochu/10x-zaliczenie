@@ -3,6 +3,7 @@
 ## 1. USER INTERFACE ARCHITECTURE
 
 ### 1.1. New Pages and Routes
+
 The following pages will be implemented as Astro pages (`src/pages/*.astro`) to handle server-side logic and initial rendering:
 
 - `/auth/login`: Dedicated login page.
@@ -12,6 +13,7 @@ The following pages will be implemented as Astro pages (`src/pages/*.astro`) to 
 - `/auth/callback`: Server-side route to handle Supabase Auth exchange (PKCE).
 
 ### 1.2. Component Responsibilities
+
 - **Astro Pages (Server-side)**:
   - Handle session verification via `context.locals.supabase`.
   - Perform redirects for unauthorized access (e.g., redirecting `/leaderboard` to `/auth/login`).
@@ -21,6 +23,7 @@ The following pages will be implemented as Astro pages (`src/pages/*.astro`) to 
   - `Navigation`: Extended to show "Login" for guests and "Profile/Logout" for authenticated users.
 
 ### 1.3. UI State & Access Control
+
 - **Guest Mode (Unauthenticated)**:
   - Access to `/dashboard` (read-only, no betting fields).
   - Access to `/auth/*` routes.
@@ -33,6 +36,7 @@ The following pages will be implemented as Astro pages (`src/pages/*.astro`) to 
   - Same as User Mode plus access to `/admin` panel.
 
 ### 1.4. Validation & Errors
+
 - **Registration**:
   - Email: Valid format.
   - Password: Min 8 characters, must match confirmation.
@@ -49,12 +53,15 @@ The following pages will be implemented as Astro pages (`src/pages/*.astro`) to 
 ## 2. BACKEND LOGIC
 
 ### 2.1. API Endpoints
+
 New endpoints in `src/pages/api/`:
+
 - `POST /api/auth/register`: Initial user creation and profile setup.
 - `POST /api/auth/login`: Session creation.
 - `POST /api/auth/logout`: Session termination.
 
 ### 2.2. Data Models (Supabase)
+
 - **auth.users**: Managed by Supabase Auth.
 - **public.profiles**:
   - `id`: UUID (references auth.users.id).
@@ -64,6 +71,7 @@ New endpoints in `src/pages/api/`:
   - `created_at`: TIMESTAMPTZ.
 
 ### 2.3. Server-Side Rendering (SSR)
+
 - **Middleware Update**: `src/middleware/index.ts` will be extended to:
   - Initialize the Supabase Server Client with cookies.
   - Refresh the session on every request.
@@ -75,6 +83,7 @@ New endpoints in `src/pages/api/`:
 ## 3. AUTHENTICATION SYSTEM (SUPABASE)
 
 ### 3.1. Implementation Strategy
+
 - **Client-Side**: Use `@supabase/supabase-js` for browser-based auth actions (login, register, recovery).
 - **Server-Side**: Use `@supabase/ssr` (or manual cookie handling in middleware) to maintain session persistence across Astro page navigations.
 - **Auth Flow**:
@@ -84,11 +93,13 @@ New endpoints in `src/pages/api/`:
   4. Middleware detects the session and verifies the profile.
 
 ### 3.2. Password Recovery
+
 - Use `supabase.auth.resetPasswordForEmail`.
 - Recovery link points to `/auth/callback?next=/auth/reset-password`.
 - User provides a new password which is updated via `supabase.auth.updateUser`.
 
 ### 3.3. Security
+
 - **RLS (Row Level Security)**:
   - `profiles`: Publicly readable, but only owner can update.
   - `bets`: Only owner can insert/update; readable by owner (and admin).
@@ -97,6 +108,7 @@ New endpoints in `src/pages/api/`:
 ---
 
 ## 4. COMPATIBILITY & CONSTRAINTS
+
 - **Existing Behavior**: Dashboard remains accessible to guests but with disabled betting inputs (R-0, US-001).
 - **Tech Stack**: Fully utilizes Astro 5 SSR, React 19 components, and Supabase Auth.
 - **Navigation**: The existing `Navigation.tsx` will be updated to dynamically reflect auth state without breaking the layout.

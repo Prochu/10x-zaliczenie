@@ -13,42 +13,38 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // Validate input
     if (!email || !password || !nickname) {
-      return new Response(
-        JSON.stringify({ error: "Email, password, and nickname are required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Email, password, and nickname are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Validate nickname format
     if (nickname.length < 3 || nickname.length > 15) {
-      return new Response(
-        JSON.stringify({ error: "Nickname must be 3-15 characters" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Nickname must be 3-15 characters" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     if (!/^[a-zA-Z0-9]+$/.test(nickname)) {
-      return new Response(
-        JSON.stringify({ error: "Nickname must be alphanumeric only" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Nickname must be alphanumeric only" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Create Supabase client
     const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
     // Check if nickname already exists
-    const { data: existingProfile } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("nickname", nickname)
-      .single();
+    const { data: existingProfile } = await supabase.from("profiles").select("id").eq("nickname", nickname).single();
 
     if (existingProfile) {
-      return new Response(
-        JSON.stringify({ error: "Nickname already taken" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Nickname already taken" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Sign up with email and password
@@ -58,10 +54,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
 
     if (signUpError || !signUpData.user) {
-      return new Response(
-        JSON.stringify({ error: signUpError?.message || "Registration failed" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: signUpError?.message || "Registration failed" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Create profile
@@ -74,32 +70,24 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     if (profileError) {
       // If profile creation fails, we should clean up the auth user
       // but for simplicity, we'll just return the error
-      return new Response(
-        JSON.stringify({ error: "Failed to create profile: " + profileError.message }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Failed to create profile: " + profileError.message }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Get the created profile
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("user_id", signUpData.user.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("id").eq("user_id", signUpData.user.id).single();
 
     if (!profile) {
-      return new Response(
-        JSON.stringify({ error: "Profile not found after creation" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Profile not found after creation" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Add user to default group
-    const { data: defaultGroup } = await supabase
-      .from("groups")
-      .select("id")
-      .eq("is_default", true)
-      .single();
+    const { data: defaultGroup } = await supabase.from("groups").select("id").eq("is_default", true).single();
 
     if (defaultGroup) {
       await supabase.from("user_groups").insert({
@@ -127,15 +115,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       });
     }
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Registration error:", error);
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "An unexpected error occurred" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };

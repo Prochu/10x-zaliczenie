@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { LeaderboardRow } from "./LeaderboardRow";
 import type { LeaderboardEntryDto } from "../types";
 
@@ -15,10 +8,7 @@ interface LeaderboardTableProps {
   currentUserId: string;
 }
 
-export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
-  entries,
-  currentUserId,
-}) => {
+export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries, currentUserId }) => {
   return (
     <div className="rounded-md border">
       <Table>
@@ -39,11 +29,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             </TableRow>
           ) : (
             entries.map((entry) => (
-              <LeaderboardRow
-                key={entry.userId}
-                entry={entry}
-                isCurrentUser={entry.userId === currentUserId}
-              />
+              <LeaderboardRow key={entry.userId} entry={entry} isCurrentUser={entry.userId === currentUserId} />
             ))
           )}
         </TableBody>

@@ -1,10 +1,12 @@
 # API Endpoint Implementation Plan: POST /profiles/nickname
 
 ## 1. Endpoint Overview
+
 - Purpose: Set the initial nickname for an authenticated user, ensuring uniqueness and valid format. Creates a `profiles` row linked to the Supabase `auth.users` record. Does not allow updates once set.
 - Success: `201 Created` with profile summary.
 
 ## 2. Request Details
+
 - HTTP Method: POST
 - URL: `/profiles/nickname`
 - Authentication: Required (Supabase auth; use `locals.supabase` per middleware).
@@ -18,11 +20,13 @@
   - Reject body without `nickname` or extra unknown keys (strip/strict).
 
 ## 3. Used Types
+
 - DTOs: `ProfileDto` (id, nickname, isAdmin).
 - Command Models: `CreateProfileCommand` (nickname).
 - Supabase rows: `profiles`.
 
 ## 3. Response Details
+
 - Success `201`: `{ id, nickname, is_admin }` mapped to `ProfileDto` shape (note `is_admin` from DB -> `isAdmin` if following DTO mapper; API spec shows snake_case -> align with API contract, keep `is_admin` in response per spec or map consistently across API—choose one and document; prefer camelCase DTO for consistency unless API spec mandates snake_case).
 - Errors:
   - `400` invalid format (failed validation).
@@ -31,6 +35,7 @@
   - `500` unexpected server error.
 
 ## 4. Data Flow
+
 1. Authenticate via middleware: obtain `user` from Supabase session (`locals.supabase.auth.getUser()` or already injected).
 2. Parse and validate body with Zod into `CreateProfileCommand`.
 3. Check if profile already exists for `user.id` via `profiles` table.
@@ -39,6 +44,7 @@
 6. Return created profile mapped to response DTO with `201 Created`.
 
 ## 5. Security Considerations
+
 - Auth required; reject missing/invalid session with `401`.
 - Prevent nickname enumeration timing leaks by uniform error message for 409 conflicts.
 - Input validation on nickname to avoid injection; rely on prepared queries.
@@ -46,6 +52,7 @@
 - Ensure no ability to overwrite existing profile (guard clause).
 
 ## 6. Error Handling
+
 - Validation error → `400` with message.
 - No session/user → `401`.
 - Profile already exists for user_id → `409`.
@@ -54,11 +61,13 @@
 - No dedicated error table noted; use standard logging (console/error logger).
 
 ## 7. Performance Considerations
+
 - Single select + insert; low cost.
 - Use targeted select on `profiles` by `user_id` (unique) to short-circuit.
 - Avoid extra round trips by catching unique violation instead of pre-check for nickname; pre-check only for own profile existence.
 
 ## 8. Implementation Steps
+
 1. Add Zod schema for `CreateProfileCommand` (nickname rules).
 2. Implement handler at `src/pages/api/profiles/nickname.ts` (Astro server endpoint):
    - Export `POST`.
@@ -74,4 +83,3 @@
    - Reuse DTO mapper if available (`toProfileDto`); otherwise inline.
 7. Tests (if test harness present): unit for validation, integration for conflict paths (happy, validation fail, already set, nickname taken).
 8. Update API documentation/plan references if needed.
-

@@ -76,4 +76,3 @@ export const MatchHistorySkeleton: React.FC<MatchHistorySkeletonProps> = ({ coun
     </div>
   );
 };
-

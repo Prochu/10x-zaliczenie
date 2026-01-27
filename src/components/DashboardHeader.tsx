@@ -4,9 +4,7 @@ interface DashboardHeaderProps {
   lastUpdated?: Date;
 }
 
-export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
-  lastUpdated,
-}) => {
+export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ lastUpdated }) => {
   const formatLastUpdated = (date: Date) => {
     return new Intl.DateTimeFormat("en-US", {
       hour: "2-digit",
@@ -17,14 +15,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
   return (
     <header className="mb-8">
-      <h1 className="text-3xl font-bold text-foreground mb-2">
-        Champions League Dashboard
-      </h1>
-      {lastUpdated && (
-        <p className="text-sm text-muted-foreground">
-          Last updated: {formatLastUpdated(lastUpdated)}
-        </p>
-      )}
+      <h1 className="text-3xl font-bold text-foreground mb-2">Champions League Dashboard</h1>
+      {lastUpdated && <p className="text-sm text-muted-foreground">Last updated: {formatLastUpdated(lastUpdated)}</p>}
     </header>
   );
 };

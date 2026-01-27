@@ -22,12 +22,10 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
   });
 
   const isBettingDisabled =
-    isExpired ||
-    new Date() > new Date(match.bettingDeadline) ||
-    !["scheduled", "live"].includes(match.status);
+    isExpired || new Date() > new Date(match.bettingDeadline) || !["scheduled", "live"].includes(match.status);
 
   const handleBetChange = (homeScore: number, awayScore: number) => {
-    setBettingState(prev => ({
+    setBettingState((prev) => ({
       ...prev,
       homeScore,
       awayScore,
@@ -55,13 +53,9 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             {match.status === "live" && <LiveBadge />}
-            <span className="text-sm font-medium text-muted-foreground">
-              {formatKickoffTime(match.kickoffTime)}
-            </span>
+            <span className="text-sm font-medium text-muted-foreground">{formatKickoffTime(match.kickoffTime)}</span>
           </div>
-          {!isBettingDisabled && (
-            <CountdownTimer deadline={match.bettingDeadline} />
-          )}
+          {!isBettingDisabled && <CountdownTimer deadline={match.bettingDeadline} />}
         </div>
       </CardHeader>
 
@@ -70,11 +64,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3 flex-1">
             {match.homeTeamLogo ? (
-              <img
-                src={match.homeTeamLogo}
-                alt={match.homeTeamName}
-                className="w-8 h-8 object-contain"
-              />
+              <img src={match.homeTeamLogo} alt={match.homeTeamName} className="w-8 h-8 object-contain" />
             ) : (
               <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                 <span className="text-xs font-bold text-muted-foreground">
@@ -85,20 +75,12 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
             <span className="font-medium truncate">{match.homeTeamName}</span>
           </div>
 
-          <ScoreDisplay
-            homeScore={match.homeTeamScore}
-            awayScore={match.awayTeamScore}
-            status={match.status}
-          />
+          <ScoreDisplay homeScore={match.homeTeamScore} awayScore={match.awayTeamScore} status={match.status} />
 
           <div className="flex items-center space-x-3 flex-1 justify-end">
             <span className="font-medium truncate">{match.awayTeamName}</span>
             {match.awayTeamLogo ? (
-              <img
-                src={match.awayTeamLogo}
-                alt={match.awayTeamName}
-                className="w-8 h-8 object-contain"
-              />
+              <img src={match.awayTeamLogo} alt={match.awayTeamName} className="w-8 h-8 object-contain" />
             ) : (
               <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                 <span className="text-xs font-bold text-muted-foreground">

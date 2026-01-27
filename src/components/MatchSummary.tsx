@@ -52,4 +52,3 @@ export const MatchSummary: React.FC<MatchSummaryProps> = ({ match }) => {
     </div>
   );
 };
-

@@ -42,15 +42,18 @@ The user interface follows Material Design principles with a light theme and blu
 ## Tech Stack
 
 ### Frontend
+
 - **[Astro](https://astro.build/)** v5 - Modern web framework for building fast, content-focused websites
 - **[React](https://react.dev/)** v19 - UI library for building interactive components
 - **[TypeScript](https://www.typescriptlang.org/)** v5 - Type-safe JavaScript
 - **[Tailwind CSS](https://tailwindcss.com/)** v4 - Utility-first CSS framework
 
 ### Backend & Database
+
 - **[Supabase](https://supabase.com/)** - Backend-as-a-Service providing authentication, database, and real-time capabilities
 
 ### CI/CD & Hosting
+
 - **GitHub Actions** - Continuous Integration and Deployment
 - **DigitalOcean** - Cloud hosting platform
 
@@ -65,24 +68,28 @@ The user interface follows Material Design principles with a light theme and blu
 ### Installation Steps
 
 1. **Clone the repository:**
+
    ```bash
    git clone <repository-url>
    cd 10x-zaliczenie
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables:**
    Create a `.env` file in the root directory with your Supabase credentials:
+
    ```env
    PUBLIC_SUPABASE_URL=your_supabase_url
    PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
 4. **Run the development server:**
+
    ```bash
    npm run dev
    ```
@@ -95,6 +102,7 @@ The user interface follows Material Design principles with a light theme and blu
 - Configure Supabase authentication providers (Google, Facebook, Apple) in your Supabase dashboard
 - Set up the database schema according to the project requirements
 - Configure the api-football.com API key for match data fetching
+- **Set up Supabase Cron Jobs** for automated match synchronization - see [SUPABASE_CRON_SETUP.md](./SUPABASE_CRON_SETUP.md)
 
 ## Available Scripts
 

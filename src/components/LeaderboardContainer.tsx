@@ -8,19 +8,8 @@ interface LeaderboardContainerProps {
   currentUser: MeDto;
 }
 
-export const LeaderboardContainer: React.FC<LeaderboardContainerProps> = ({
-  currentUser,
-}) => {
-  const {
-    items,
-    total,
-    currentPage,
-    pageSize,
-    isLoading,
-    error,
-    setPage,
-    refresh,
-  } = useLeaderboard();
+export const LeaderboardContainer: React.FC<LeaderboardContainerProps> = ({ currentUser }) => {
+  const { items, total, currentPage, pageSize, isLoading, error, setPage, refresh } = useLeaderboard();
 
   const handlePageChange = (page: number) => {
     const totalPages = Math.ceil(total / pageSize);
@@ -50,9 +39,7 @@ export const LeaderboardContainer: React.FC<LeaderboardContainerProps> = ({
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">Leaderboard</h2>
-        <p className="text-muted-foreground">
-          Compete with other players and climb the rankings!
-        </p>
+        <p className="text-muted-foreground">Compete with other players and climb the rankings!</p>
       </div>
 
       {isLoading && items.length === 0 ? (
@@ -64,10 +51,7 @@ export const LeaderboardContainer: React.FC<LeaderboardContainerProps> = ({
         </div>
       ) : (
         <>
-          <LeaderboardTable
-            entries={items}
-            currentUserId={currentUser.id}
-          />
+          <LeaderboardTable entries={items} currentUserId={currentUser.id} />
 
           <LeaderboardPagination
             currentPage={currentPage}

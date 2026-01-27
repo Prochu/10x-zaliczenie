@@ -3,12 +3,15 @@
 ## Date: January 26, 2026
 
 ## Overview
+
 This document summarizes the backend integration of the authentication system with Supabase, completing the full authentication flow for BetBuddy.
 
 ## Implemented Components
 
 ### 1. Middleware (`src/middleware/index.ts`)
+
 **Changes:**
+
 - ✅ Initialize Supabase client per-request with cookie support
 - ✅ Retrieve and validate session from cookies (`sb-access-token`, `sb-refresh-token`)
 - ✅ Fetch user profile and groups from database
@@ -16,6 +19,7 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Handle session refresh automatically
 
 **Authentication Flow:**
+
 1. Extract access and refresh tokens from cookies
 2. Set session using `supabase.auth.setSession()`
 3. Query `profiles` table for user data
@@ -25,6 +29,7 @@ This document summarizes the backend integration of the authentication system wi
 ### 2. API Endpoints Created
 
 #### `/api/auth/login` (POST)
+
 - ✅ Validates email and password
 - ✅ Calls `supabase.auth.signInWithPassword()`
 - ✅ Sets HTTP-only session cookies
@@ -32,6 +37,7 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Error handling for invalid credentials
 
 #### `/api/auth/register` (POST)
+
 - ✅ Validates email, password, and nickname
 - ✅ Checks nickname uniqueness
 - ✅ Creates auth user via `supabase.auth.signUp()`
@@ -41,10 +47,12 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Error handling for duplicates and validation
 
 #### `/api/auth/logout` (POST)
+
 - ✅ Clears session cookies (`sb-access-token`, `sb-refresh-token`)
 - ✅ Returns success response
 
 #### `/api/auth/recovery` (POST)
+
 - ✅ Validates email
 - ✅ Calls `supabase.auth.resetPasswordForEmail()`
 - ✅ Configures redirect to `/auth/reset-password`
@@ -53,12 +61,14 @@ This document summarizes the backend integration of the authentication system wi
 ### 3. React Components Updated
 
 #### `LoginForm.tsx`
+
 - ✅ Calls `/api/auth/login` endpoint
 - ✅ Handles loading states
 - ✅ Displays error messages
 - ✅ Redirects on success
 
 #### `RegisterForm.tsx`
+
 - ✅ Calls `/api/auth/register` endpoint
 - ✅ Client-side validation
 - ✅ Handles loading states
@@ -66,17 +76,20 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Redirects on success
 
 #### `RecoveryForm.tsx`
+
 - ✅ Calls `/api/auth/recovery` endpoint
 - ✅ Shows success message
 - ✅ Handles errors
 
 #### `ResetPasswordForm.tsx`
+
 - ✅ Calls `supabaseClient.auth.updateUser()` directly
 - ✅ Client-side password validation
 - ✅ Shows success message
 - ✅ Redirects to login
 
 #### `Navigation.tsx`
+
 - ✅ Logout button calls `/api/auth/logout`
 - ✅ Desktop and mobile menus updated
 - ✅ Shows user nickname when logged in
@@ -85,6 +98,7 @@ This document summarizes the backend integration of the authentication system wi
 ### 4. Astro Pages Updated
 
 #### Auth Pages (Login, Register)
+
 - ✅ `/auth/login` - Redirects authenticated users to dashboard
 - ✅ `/auth/register` - Redirects authenticated users to dashboard
 - ✅ `/auth/callback` - Handles OAuth callback and code exchange
@@ -92,37 +106,44 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ `/auth/reset-password` - No redirect (accessible with reset token)
 
 #### Protected Pages
+
 - ✅ `/leaderboard` - Requires authentication, redirects to `/auth/login`
 - ✅ `/history` - Requires authentication, redirects to `/auth/login`
 - ✅ `/dashboard` - Accessible to all (guests and users)
 
 #### Layout Updates
+
 - ✅ All pages pass `user` prop to `Layout` component
 - ✅ `Layout` passes `user` to `Navigation` component
 
 ### 5. API Endpoints Updated for Authentication
 
 #### `/api/upcomingmatches` (GET)
+
 - ✅ Uses `locals.user` instead of `supabase.auth.getUser()`
 - ✅ Returns user bets only if authenticated
 - ✅ Accessible to guests (no bets shown)
 
 #### `/api/matches/history` (GET)
+
 - ✅ Requires authentication
 - ✅ Returns 401 if not authenticated
 - ✅ Uses `locals.user.id` for filtering
 
 #### `/api/matches/[matchId]/bet` (PUT)
+
 - ✅ Requires authentication
 - ✅ Returns 401 if not authenticated
 - ✅ Uses `locals.user.id` for bet creation
 
 #### `/api/leaderboard` (GET)
+
 - ✅ No authentication required (public access)
 
 ### 6. TypeScript Types Updated
 
 #### `src/env.d.ts`
+
 - ✅ Added `user?: MeDto | null` to `App.Locals`
 - ✅ Updated `SupabaseClient` type import
 
@@ -176,6 +197,7 @@ This document summarizes the backend integration of the authentication system wi
 ## Security Considerations
 
 ### Implemented
+
 - ✅ HTTP-only cookies for session storage
 - ✅ Secure flag in production
 - ✅ SameSite: lax for CSRF protection
@@ -185,6 +207,7 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Profile uniqueness validation
 
 ### Database (Already Configured)
+
 - ✅ RLS enabled on all tables
 - ✅ Public read access for profiles (MVP requirement)
 - ✅ User-specific write access for bets
@@ -193,6 +216,7 @@ This document summarizes the backend integration of the authentication system wi
 ## User Experience Flow
 
 ### Registration Flow
+
 1. User visits `/auth/register`
 2. Fills form (email, nickname, password)
 3. Client validates input
@@ -203,6 +227,7 @@ This document summarizes the backend integration of the authentication system wi
 8. Redirects to `/dashboard`
 
 ### Login Flow
+
 1. User visits `/auth/login`
 2. Fills form (email, password)
 3. POSTs to `/api/auth/login`
@@ -211,12 +236,14 @@ This document summarizes the backend integration of the authentication system wi
 6. Redirects to `/dashboard`
 
 ### Logout Flow
+
 1. User clicks "Sign out"
 2. POSTs to `/api/auth/logout`
 3. Cookies cleared
 4. Redirects to `/dashboard` (as guest)
 
 ### Password Recovery Flow
+
 1. User visits `/auth/recovery`
 2. Enters email
 3. POSTs to `/api/auth/recovery`
@@ -230,6 +257,7 @@ This document summarizes the backend integration of the authentication system wi
 ## Guest vs Authenticated Access
 
 ### Guest Access (Unauthenticated)
+
 - ✅ Can view `/dashboard` (no betting, no bet display)
 - ✅ Cannot access `/leaderboard`
 - ✅ Cannot access `/history`
@@ -237,6 +265,7 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ See "Sign in" button in navigation
 
 ### Authenticated User Access
+
 - ✅ Can view `/dashboard` (with betting enabled)
 - ✅ Can access `/leaderboard`
 - ✅ Can access `/history`
@@ -244,12 +273,14 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ See nickname and logout in navigation
 
 ### Admin Access (Not Yet Implemented)
+
 - ⏳ Same as User + `/admin` panel access
 - ⏳ Admin role check needed for admin endpoints
 
 ## Testing Checklist
 
 ### Manual Testing Required
+
 - [ ] Register new user
 - [ ] Login with registered user
 - [ ] Logout
@@ -282,21 +313,25 @@ This document summarizes the backend integration of the authentication system wi
 ## Files Modified
 
 ### Core Files
+
 - `src/middleware/index.ts` - Session management
 - `src/env.d.ts` - Type definitions
 
 ### API Endpoints (New)
+
 - `src/pages/api/auth/login.ts`
 - `src/pages/api/auth/logout.ts`
 - `src/pages/api/auth/register.ts`
 - `src/pages/api/auth/recovery.ts`
 
 ### API Endpoints (Updated)
+
 - `src/pages/api/upcomingmatches.ts`
 - `src/pages/api/matches/history.ts`
 - `src/pages/api/matches/[matchId]/bet.ts`
 
 ### Components
+
 - `src/components/LoginForm.tsx`
 - `src/components/RegisterForm.tsx`
 - `src/components/RecoveryForm.tsx`
@@ -304,6 +339,7 @@ This document summarizes the backend integration of the authentication system wi
 - `src/components/Navigation.tsx`
 
 ### Pages
+
 - `src/pages/auth/login.astro`
 - `src/pages/auth/register.astro`
 - `src/pages/auth/callback.astro`
@@ -315,6 +351,7 @@ This document summarizes the backend integration of the authentication system wi
 ## Compliance with Specifications
 
 ### From `.ai/auth-spec.md`
+
 - ✅ All routes implemented
 - ✅ Server-side session management
 - ✅ Protected routes with redirects
@@ -324,6 +361,7 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ RLS policies (already configured)
 
 ### From `.ai/prd.md`
+
 - ✅ R-001: Users can register and login
 - ✅ R-002: Email, password, nickname required
 - ✅ R-003: All users in default group
@@ -333,4 +371,5 @@ This document summarizes the backend integration of the authentication system wi
 - ✅ Dashboard accessible to guests (read-only)
 
 ## Summary
+
 The authentication system is now fully integrated with the backend. All forms communicate with Supabase through API endpoints, sessions are managed via HTTP-only cookies, and protected routes enforce authentication. The system follows security best practices and meets all requirements from the specifications.

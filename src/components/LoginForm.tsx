@@ -91,28 +91,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
           </div>
 
           <div className="flex items-center justify-end">
-            <a
-              href="/auth/recovery"
-              className="text-sm text-primary hover:underline"
-            >
+            <a href="/auth/recovery" className="text-sm text-primary hover:underline">
               Forgot password?
             </a>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign in"}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <a
-              href="/auth/register"
-              className="text-primary hover:underline font-medium"
-            >
+            <a href="/auth/register" className="text-primary hover:underline font-medium">
               Sign up
             </a>
           </div>

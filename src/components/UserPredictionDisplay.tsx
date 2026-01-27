@@ -10,7 +10,13 @@ interface UserPredictionDisplayProps {
   };
   match: Pick<
     MatchHistoryItemViewModel,
-    "homeTeamName" | "awayTeamName" | "homeTeamLogo" | "awayTeamLogo" | "finalHomeScore" | "finalAwayScore" | "matchStatus"
+    | "homeTeamName"
+    | "awayTeamName"
+    | "homeTeamLogo"
+    | "awayTeamLogo"
+    | "finalHomeScore"
+    | "finalAwayScore"
+    | "matchStatus"
   >;
 }
 
@@ -19,7 +25,7 @@ export const UserPredictionDisplay: React.FC<UserPredictionDisplayProps> = ({ pr
   if (match.matchStatus === "cancelled" || match.matchStatus === "postponed") {
     const statusText = match.matchStatus === "cancelled" ? "Match Cancelled" : "Match Postponed";
     const statusColor = match.matchStatus === "cancelled" ? "text-gray-600" : "text-yellow-600";
-    
+
     return (
       <div className="text-center py-3">
         <span className={`text-sm font-medium ${statusColor}`}>
@@ -54,7 +60,9 @@ export const UserPredictionDisplay: React.FC<UserPredictionDisplayProps> = ({ pr
     <div className="space-y-2">
       <div className="text-xs text-muted-foreground font-medium">Your prediction:</div>
 
-      <div className={`rounded-lg border p-3 transition-colors ${isCorrect ? "bg-green-50 border-green-200" : "bg-muted/30"}`}>
+      <div
+        className={`rounded-lg border p-3 transition-colors ${isCorrect ? "bg-green-50 border-green-200" : "bg-muted/30"}`}
+      >
         <TeamScoreDisplay
           homeTeam={{
             name: match.homeTeamName,

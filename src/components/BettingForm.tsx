@@ -48,11 +48,7 @@ export const BettingForm: React.FC<BettingFormProps> = ({
           />
         </div>
 
-        <Button
-          onClick={onSave}
-          disabled={!isDirty || isSaving || isDisabled}
-          size="sm"
-        >
+        <Button onClick={onSave} disabled={!isDirty || isSaving || isDisabled} size="sm">
           {isSaving ? "Saving..." : "Save"}
         </Button>
       </div>

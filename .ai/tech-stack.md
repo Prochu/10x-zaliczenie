@@ -6,9 +6,11 @@ Frontend:
 - Tailwind 4
 
 Backend i baza danych:
+
 - Supabase
 
 CI/CD i Hosting:
+
 - Github Actions
 - DigitalOcean
-</tech-stack>
+  </tech-stack>

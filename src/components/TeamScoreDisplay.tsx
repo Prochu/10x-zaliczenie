@@ -46,4 +46,3 @@ export const TeamScoreDisplay: React.FC<TeamScoreDisplayProps> = ({ homeTeam, aw
     </div>
   );
 };
-
