@@ -6,9 +6,10 @@ import type { MatchListItemDto } from "../types";
 interface MatchListProps {
   matches?: MatchListItemDto[];
   isLoading?: boolean;
+  onBetSaved?: () => void;
 }
 
-export const MatchList: React.FC<MatchListProps> = ({ matches = [], isLoading = false }) => {
+export const MatchList: React.FC<MatchListProps> = ({ matches = [], isLoading = false, onBetSaved }) => {
   if (isLoading) {
     return (
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -27,7 +28,7 @@ export const MatchList: React.FC<MatchListProps> = ({ matches = [], isLoading = 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {matches.map((match) => (
-        <MatchCard key={match.id} match={match} />
+        <MatchCard key={match.id} match={match} onBetSaved={onBetSaved} />
       ))}
     </div>
   );

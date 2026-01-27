@@ -4,7 +4,7 @@ import { MatchList } from "./MatchList";
 import { useMatches } from "./hooks/useMatches";
 
 const Dashboard: React.FC = () => {
-  const { matches, isLoading, error, lastUpdated } = useMatches();
+  const { matches, isLoading, error, lastUpdated, refetch } = useMatches();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
           <p className="text-destructive text-sm">{error}</p>
         </div>
       )}
-      <MatchList matches={matches} isLoading={isLoading} />
+      <MatchList matches={matches} isLoading={isLoading} onBetSaved={refetch} />
     </div>
   );
 };

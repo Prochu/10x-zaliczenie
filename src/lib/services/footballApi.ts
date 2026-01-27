@@ -31,7 +31,7 @@ export interface FootballApiResponse {
 
 const API_HOST = "v3.football.api-sports.io";
 const LEAGUE_ID = 2; // Champions League
-const SEASON = 2024; // 2024/2025 season
+const SEASON = 2025; // 2025/2026 season
 
 export class FootballApiService {
   private apiKey: string;

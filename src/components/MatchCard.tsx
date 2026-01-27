@@ -5,13 +5,15 @@ import { CountdownTimer } from "./CountdownTimer";
 import { ScoreDisplay } from "./ScoreDisplay";
 import { BettingForm } from "./BettingForm";
 import { useCountdown } from "./hooks/useCountdown";
+import { toast } from "sonner";
 import type { MatchListItemDto } from "../types";
 
 interface MatchCardProps {
   match: MatchListItemDto;
+  onBetSaved?: () => void;
 }
 
-export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
+export const MatchCard: React.FC<MatchCardProps> = ({ match, onBetSaved }) => {
   const { isExpired } = useCountdown(match.bettingDeadline);
 
   const [bettingState, setBettingState] = useState({
@@ -34,8 +36,38 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
   };
 
   const handleBetSave = async () => {
-    // TODO: Implement API call to save bet
-    console.log("Saving bet:", bettingState.homeScore, "-", bettingState.awayScore);
+    setBettingState((prev) => ({ ...prev, isSaving: true }));
+    try {
+      const response = await fetch(`/api/matches/${match.id}/bet`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          homeScore: bettingState.homeScore,
+          awayScore: bettingState.awayScore,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Failed to save bet: ${response.status}`);
+      }
+
+      setBettingState((prev) => ({ ...prev, isDirty: false }));
+      
+      // Notify parent to refresh data
+      if (onBetSaved) {
+        onBetSaved();
+      }
+
+      toast.success("Bet saved successfully!");
+    } catch (error) {
+      console.error("Error saving bet:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to save bet");
+    } finally {
+      setBettingState((prev) => ({ ...prev, isSaving: false }));
+    }
   };
 
   const formatKickoffTime = (kickoffTime: string) => {
