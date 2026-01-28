@@ -14,11 +14,15 @@ if (!user) {
 ---
 
 <Layout title={title} showNavigation={true} user={user}>
-  <main class="min-h-screen bg-background pb-20 md:pb-8">
+  <main class="min-h-screen pb-20 md:pb-8">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <LeaderboardHeader totalPlayers={undefined} lastUpdated={undefined} client:load />
+      <div class="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg mb-8">
+        <LeaderboardHeader totalPlayers={undefined} lastUpdated={undefined} client:load />
+      </div>
 
-      <LeaderboardContainer currentUser={user} client:load />
+      <div class="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg">
+        <LeaderboardContainer currentUser={user} client:load />
+      </div>
     </div>
   </main>
 </Layout>

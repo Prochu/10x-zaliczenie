@@ -12,7 +12,7 @@ interface MatchListProps {
 export const MatchList: React.FC<MatchListProps> = ({ matches = [], isLoading = false, onBetSaved }) => {
   if (isLoading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         {/* Loading skeleton cards */}
         {Array.from({ length: 6 }).map((_, index) => (
           <div key={index} className="h-64 bg-muted rounded-lg animate-pulse" />
@@ -26,7 +26,7 @@ export const MatchList: React.FC<MatchListProps> = ({ matches = [], isLoading = 
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2">
       {matches.map((match) => (
         <MatchCard key={match.id} match={match} onBetSaved={onBetSaved} />
       ))}

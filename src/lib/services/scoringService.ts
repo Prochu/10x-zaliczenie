@@ -49,7 +49,7 @@ export async function updateMatchBetsPoints(
   // 1. Fetch all bets for this match
   const { data: bets, error: fetchError } = await supabase
     .from("bets")
-    .select("id, home_score, away_score")
+    .select("id, home_score, away_score, user_id, match_id")
     .eq("match_id", matchId);
 
   if (fetchError) {
@@ -62,7 +62,7 @@ export async function updateMatchBetsPoints(
 
   // 2. Calculate points for each bet
   const updates = bets.map((bet) => ({
-    id: bet.id,
+    ...bet,
     points_awarded: calculatePoints(homeScore, awayScore, bet.home_score, bet.away_score),
   }));
 
