@@ -14,9 +14,6 @@
 
 const BASE_URL = "http://localhost:3000";
 
-// Test data from seed script
-const TEST_USER_ID = "57e03949-57b7-41e4-8b55-a6c6caf1cd98"; // Alice
-
 // Match IDs from seed script
 const SCHEDULED_MATCH_ID = "44444444-4444-4444-4444-444444444444"; // Arsenal vs Chelsea (scheduled)
 const LIVE_MATCH_ID = "88888888-8888-8888-8888-888888888888"; // Dortmund vs Leipzig (live)

@@ -92,7 +92,7 @@ async function loadTestData() {
     },
   ];
 
-  const { data: matchData, error: matchError } = await supabase
+  const { error: matchError } = await supabase
     .from("matches")
     .upsert(matches, { onConflict: "api_match_id" });
 
@@ -152,7 +152,7 @@ async function loadTestData() {
     },
   ];
 
-  const { data: betData, error: betError } = await supabase
+  const { error: betError } = await supabase
     .from("bets")
     .upsert(bets, { onConflict: "user_id,match_id" });
 
