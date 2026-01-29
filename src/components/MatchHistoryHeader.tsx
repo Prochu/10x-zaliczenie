@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import type { MatchHistoryFiltersViewModel } from "./hooks/useMatchHistory";
 
@@ -55,64 +54,54 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
   };
 
   return (
-    <Card className="transition-shadow hover:shadow-sm">
-      <CardContent className="pt-6">
-        <div className="flex flex-col md:flex-row gap-4 items-end">
-          <div className="flex-1">
-            <label htmlFor="from-date" className="block text-sm font-medium mb-2">
-              From Date
-            </label>
-            <input
-              id="from-date"
-              type="date"
-              value={formatDateForInput(localFilters.from)}
-              onChange={(e) => handleDateChange("from", e.target.value)}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
-          </div>
+    <div className="flex flex-col md:flex-row gap-4 items-end">
+      <div className="flex-1 w-full">
+        <label htmlFor="from-date" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+          From Date
+        </label>
+        <input
+          id="from-date"
+          type="date"
+          value={formatDateForInput(localFilters.from)}
+          onChange={(e) => handleDateChange("from", e.target.value)}
+          className="w-full px-4 py-2.5 bg-background/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+        />
+      </div>
 
-          <div className="flex-1">
-            <label htmlFor="to-date" className="block text-sm font-medium mb-2">
-              To Date
-            </label>
-            <input
-              id="to-date"
-              type="date"
-              value={formatDateForInput(localFilters.to)}
-              onChange={(e) => handleDateChange("to", e.target.value)}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
-          </div>
+      <div className="flex-1 w-full">
+        <label htmlFor="to-date" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+          To Date
+        </label>
+        <input
+          id="to-date"
+          type="date"
+          value={formatDateForInput(localFilters.to)}
+          onChange={(e) => handleDateChange("to", e.target.value)}
+          className="w-full px-4 py-2.5 bg-background/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+        />
+      </div>
 
-          <div className="flex-1">
-            <label htmlFor="sort-order" className="block text-sm font-medium mb-2">
-              Sort Order
-            </label>
-            <select
-              id="sort-order"
-              value={localFilters.sortOrder}
-              onChange={(e) => handleSortOrderChange(e.target.value as "asc" | "desc")}
-              className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            >
-              <option value="desc">Newest First</option>
-              <option value="asc">Oldest First</option>
-            </select>
-          </div>
+      <div className="flex-1 w-full">
+        <label htmlFor="sort-order" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+          Sort Order
+        </label>
+        <select
+          id="sort-order"
+          value={localFilters.sortOrder}
+          onChange={(e) => handleSortOrderChange(e.target.value as "asc" | "desc")}
+          className="w-full px-4 py-2.5 bg-background/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm appearance-none"
+        >
+          <option value="desc">Newest First</option>
+          <option value="asc">Oldest First</option>
+        </select>
+      </div>
 
-          <div className="flex-shrink-0">
-            <Button onClick={validateAndApplyFilters} className="w-full md:w-auto transition-all hover:scale-105">
-              Apply Filters
-            </Button>
-          </div>
-        </div>
-
-        {validationError && (
-          <div className="mt-4 text-sm text-destructive animate-in fade-in slide-in-from-top duration-200">
-            {validationError}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      <div className="flex-shrink-0 w-full md:w-auto">
+        <Button onClick={validateAndApplyFilters} className="w-full md:w-auto px-8 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20">
+          Apply Filters
+        </Button>
+      </div>
+    </div>
   );
 };
 

@@ -11,20 +11,20 @@ interface LeaderboardTableProps {
 
 export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries, currentUserId, compact = false }) => {
   return (
-    <div className="rounded-md border">
+    <div className="rounded-xl border border-white/10 overflow-hidden">
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className={compact ? "w-12 px-2" : "w-16"}>Rank</TableHead>
-            <TableHead className={compact ? "px-2" : ""}>Player</TableHead>
-            <TableHead className={`text-right ${compact ? "px-2" : ""}`}>Points</TableHead>
-            {!compact && <TableHead className="text-right">Matches Bet</TableHead>}
+        <TableHeader className="bg-white/5">
+          <TableRow className="hover:bg-transparent border-white/10">
+            <TableHead className={`${compact ? "w-12 px-2" : "w-16"} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Rank</TableHead>
+            <TableHead className={`${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Player</TableHead>
+            <TableHead className={`text-right ${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Points</TableHead>
+            {!compact && <TableHead className="text-right text-xs font-bold uppercase tracking-wider text-foreground/60">Matches Bet</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
           {entries.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={compact ? 3 : 4} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={compact ? 3 : 4} className="text-center py-12 text-foreground/50 italic">
                 No rankings available. Place your first bet to join the competition!
               </TableCell>
             </TableRow>

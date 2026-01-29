@@ -13,7 +13,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="mb-4">
         <svg
-          className="w-16 h-16 text-muted-foreground"
+          className="w-16 h-16 text-foreground/20"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -28,7 +28,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </svg>
       </div>
       <h3 className="text-lg font-semibold text-foreground mb-2">{message}</h3>
-      <p className="text-muted-foreground max-w-md">{description}</p>
+      <p className="text-foreground/60 max-w-md">{description}</p>
     </div>
   );
 };

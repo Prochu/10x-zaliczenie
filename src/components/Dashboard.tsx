@@ -13,10 +13,10 @@ const DashboardComponent: React.FC<DashboardProps> = ({ user }) => {
   const { matches, isLoading, error, lastUpdated, refetch } = useMatches();
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="container mx-auto px-4 py-8 min-h-[calc(100vh-4rem)] flex flex-col">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1">
         {/* Left column: Leaderboard */}
-        <div className="lg:col-span-4 xl:col-span-3">
+        <div className="lg:col-span-4 xl:col-span-3 relative">
           <div className="lg:sticky lg:top-1/2 lg:-translate-y-1/2 bg-background/40 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-lg">
             {user && <LeaderboardContainer currentUser={user} compact={true} />}
           </div>

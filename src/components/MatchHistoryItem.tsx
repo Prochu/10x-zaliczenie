@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { MatchSummary } from "./MatchSummary";
 import { UserPredictionDisplay } from "./UserPredictionDisplay";
@@ -22,8 +21,8 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
   };
 
   return (
-    <Card className="overflow-hidden transition-shadow hover:shadow-md">
-      <CardHeader className="pb-3">
+    <div className="bg-background/40 backdrop-blur-md rounded-xl border border-white/10 shadow-lg overflow-hidden transition-all hover:shadow-xl hover:border-white/20">
+      <div className="p-4 md:p-6">
         <div className="flex items-center justify-between">
           <div className="flex-1">
             <MatchSummary match={match} />
@@ -51,11 +50,23 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
             </Button>
           </div>
         </div>
-      </CardHeader>
+      </div>
 
       {/* Desktop view - always show prediction details */}
-      <div className="hidden md:block transition-all">
-        <CardContent className="pt-0">
+      <div className="hidden md:block transition-all px-6 pb-6 pt-0">
+        <UserPredictionDisplay
+          prediction={{
+            homeScore: match.userHomePrediction,
+            awayScore: match.userAwayPrediction,
+            hasBet: match.hasBet,
+          }}
+          match={match}
+        />
+      </div>
+
+      {/* Mobile view - expandable prediction details */}
+      {expanded && (
+        <div className="md:hidden animate-in slide-in-from-top duration-200 px-4 pb-4 pt-0 border-t border-white/5">
           <UserPredictionDisplay
             prediction={{
               homeScore: match.userHomePrediction,
@@ -64,25 +75,9 @@ const MatchHistoryItem: React.FC<MatchHistoryItemProps> = ({ match, expanded: in
             }}
             match={match}
           />
-        </CardContent>
-      </div>
-
-      {/* Mobile view - expandable prediction details */}
-      {expanded && (
-        <div className="md:hidden animate-in slide-in-from-top duration-200">
-          <CardContent className="pt-0 border-t">
-            <UserPredictionDisplay
-              prediction={{
-                homeScore: match.userHomePrediction,
-                awayScore: match.userAwayPrediction,
-                hasBet: match.hasBet,
-              }}
-              match={match}
-            />
-          </CardContent>
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

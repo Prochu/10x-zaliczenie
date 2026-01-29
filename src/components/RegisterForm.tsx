@@ -2,7 +2,6 @@ import React, { useState, useId } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 interface RegisterFormProps {
   redirectTo?: string;
@@ -89,92 +88,113 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl">Create an account</CardTitle>
-        <CardDescription>Enter your details to get started</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-              <p className="text-destructive text-sm">{error}</p>
+    <div className="w-full max-w-md bg-background/40 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-2xl">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Create an account</h1>
+        <p className="text-foreground/70">Enter your details to get started</p>
+      </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-xl animate-in fade-in slide-in-from-top-2 duration-200">
+            <p className="text-destructive text-sm font-medium">{error}</p>
+          </div>
+        )}
+
+        <div className="space-y-2">
+          <Label htmlFor={emailId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+            Email
+          </Label>
+          <Input
+            id={emailId}
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
+            autoComplete="email"
+            className="bg-background/50 border-white/10 focus:ring-primary/50 h-11 rounded-xl"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor={nicknameId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+            Nickname
+          </Label>
+          <Input
+            id={nicknameId}
+            type="text"
+            placeholder="3-15 alphanumeric characters"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            required
+            disabled={isLoading}
+            autoComplete="username"
+            minLength={3}
+            maxLength={15}
+            pattern="[a-zA-Z0-9]+"
+            className="bg-background/50 border-white/10 focus:ring-primary/50 h-11 rounded-xl"
+          />
+          <p className="text-[10px] text-muted-foreground ml-1">This will be displayed on the leaderboard</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor={passwordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+            Password
+          </Label>
+          <Input
+            id={passwordId}
+            type="password"
+            placeholder="At least 8 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={isLoading}
+            autoComplete="new-password"
+            minLength={8}
+            className="bg-background/50 border-white/10 focus:ring-primary/50 h-11 rounded-xl"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor={confirmPasswordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+            Confirm password
+          </Label>
+          <Input
+            id={confirmPasswordId}
+            type="password"
+            placeholder="Re-enter your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            disabled={isLoading}
+            autoComplete="new-password"
+            className="bg-background/50 border-white/10 focus:ring-primary/50 h-11 rounded-xl"
+          />
+        </div>
+
+        <Button 
+          type="submit" 
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20 mt-2" 
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              <span>Creating account...</span>
             </div>
+          ) : (
+            "Create account"
           )}
+        </Button>
 
-          <div className="space-y-2">
-            <Label htmlFor={emailId}>Email</Label>
-            <Input
-              id={emailId}
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-              autoComplete="email"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor={nicknameId}>Nickname</Label>
-            <Input
-              id={nicknameId}
-              type="text"
-              placeholder="3-15 alphanumeric characters"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              required
-              disabled={isLoading}
-              autoComplete="username"
-              minLength={3}
-              maxLength={15}
-              pattern="[a-zA-Z0-9]+"
-            />
-            <p className="text-xs text-muted-foreground">This will be displayed on the leaderboard</p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor={passwordId}>Password</Label>
-            <Input
-              id={passwordId}
-              type="password"
-              placeholder="At least 8 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-              autoComplete="new-password"
-              minLength={8}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor={confirmPasswordId}>Confirm password</Label>
-            <Input
-              id={confirmPasswordId}
-              type="password"
-              placeholder="Re-enter your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              disabled={isLoading}
-              autoComplete="new-password"
-            />
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create account"}
-          </Button>
-
-          <div className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <a href="/auth/login" className="text-primary hover:underline font-medium">
-              Sign in
-            </a>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        <div className="text-center text-sm text-foreground/80 pt-2">
+          Already have an account?{" "}
+          <a href="/auth/login" className="text-primary hover:underline font-bold">
+            Sign in
+          </a>
+        </div>
+      </form>
+    </div>
   );
 };
