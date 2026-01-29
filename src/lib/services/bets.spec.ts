@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { upsertUserBet, MatchNotFoundError, BetLockedError } from "./bets";
+import type { SupabaseClient } from "../../db/supabase.client";
 
 describe("bets service", () => {
   const mockSupabase = {
@@ -8,7 +9,10 @@ describe("bets service", () => {
     eq: vi.fn().mockReturnThis(),
     single: vi.fn().mockReturnThis(),
     upsert: vi.fn().mockReturnThis(),
-  } as any;
+  } as unknown as SupabaseClient;
+
+  // Helper to cast single to any for mocking
+  const mockSingle = mockSupabase.single as unknown as { mockResolvedValueOnce: (val: unknown) => void };
 
   const userId = "user-123";
   const matchId = "match-456";
@@ -25,7 +29,7 @@ describe("bets service", () => {
       const now = new Date();
 
       // Mock match fetch
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: { id: matchId, kickoff_time: kickoffTime, status: "scheduled" },
         error: null,
       });
@@ -40,7 +44,7 @@ describe("bets service", () => {
         created_at: now.toISOString(),
         updated_at: now.toISOString(),
       };
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: mockBet,
         error: null,
       });
@@ -68,7 +72,7 @@ describe("bets service", () => {
     });
 
     it("should throw MatchNotFoundError if match does not exist", async () => {
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: null,
         error: { message: "Not found" },
       });
@@ -85,7 +89,7 @@ describe("bets service", () => {
     });
 
     it("should throw BetLockedError if match status is finished", async () => {
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: { id: matchId, kickoff_time: new Date().toISOString(), status: "finished" },
         error: null,
       });
@@ -106,7 +110,7 @@ describe("bets service", () => {
       const kickoffTime = new Date(Date.now() + 2 * 60 * 1000).toISOString(); // 2 mins in future (deadline passed)
       const now = new Date();
 
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: { id: matchId, kickoff_time: kickoffTime, status: "scheduled" },
         error: null,
       });
@@ -126,13 +130,13 @@ describe("bets service", () => {
 
     it("should throw error if bet upsert fails", async () => {
       const kickoffTime = new Date(Date.now() + 10 * 60 * 1000).toISOString();
-      
-      mockSupabase.single.mockResolvedValueOnce({
+
+      mockSingle.mockResolvedValueOnce({
         data: { id: matchId, kickoff_time: kickoffTime, status: "scheduled" },
         error: null,
       });
 
-      mockSupabase.single.mockResolvedValueOnce({
+      mockSingle.mockResolvedValueOnce({
         data: null,
         error: { message: "Database error" },
       });

@@ -90,7 +90,10 @@ export const UserPredictionDisplay: React.FC<UserPredictionDisplayProps> = ({ pr
               </span>
             ) : (
               <span className="text-xs text-foreground/70 font-medium bg-white/5 px-3 py-1 rounded-full">
-                Final Score: <span className="text-foreground font-bold">{finalScore.home} - {finalScore.away}</span>
+                Final Score:{" "}
+                <span className="text-foreground font-bold">
+                  {finalScore.home} - {finalScore.away}
+                </span>
               </span>
             )}
           </div>

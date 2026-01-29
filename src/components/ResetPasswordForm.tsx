@@ -71,8 +71,8 @@ export const ResetPasswordForm: React.FC = () => {
             <p className="text-sm font-medium">You can now sign in with your new password.</p>
           </div>
 
-          <Button 
-            className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20" 
+          <Button
+            className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
             onClick={() => (window.location.href = "/auth/login")}
           >
             Continue to sign in
@@ -96,7 +96,10 @@ export const ResetPasswordForm: React.FC = () => {
         )}
 
         <div className="space-y-2">
-          <Label htmlFor={passwordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={passwordId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             New password
           </Label>
           <Input
@@ -114,7 +117,10 @@ export const ResetPasswordForm: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor={confirmPasswordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={confirmPasswordId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Confirm new password
           </Label>
           <Input
@@ -130,9 +136,9 @@ export const ResetPasswordForm: React.FC = () => {
           />
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20" 
+        <Button
+          type="submit"
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
           disabled={isLoading}
         >
           {isLoading ? (

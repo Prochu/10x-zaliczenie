@@ -48,7 +48,7 @@ export const RecoveryForm: React.FC = () => {
       <div className="w-full max-w-md bg-background/40 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-2xl">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold tracking-tight mb-2">Check your email</h1>
-          <p className="text-foreground/70">We've sent you a password reset link</p>
+          <p className="text-foreground/70">We&apos;ve sent you a password reset link</p>
         </div>
         <div className="space-y-6">
           <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl">
@@ -58,20 +58,20 @@ export const RecoveryForm: React.FC = () => {
           </div>
 
           <p className="text-sm text-foreground/80 text-center">
-            Didn't receive the email? Check your spam folder or try again.
+            Didn&apos;t receive the email? Check your spam folder or try again.
           </p>
 
           <div className="flex flex-col gap-3">
-            <Button 
-              variant="outline" 
-              className="w-full h-11 border-white/10 hover:bg-white/5 rounded-xl transition-all" 
+            <Button
+              variant="outline"
+              className="w-full h-11 border-white/10 hover:bg-white/5 rounded-xl transition-all"
               onClick={() => setSuccess(false)}
             >
               Send another link
             </Button>
-            <Button 
-              variant="ghost" 
-              className="w-full h-11 hover:bg-white/5 rounded-xl transition-all font-bold" 
+            <Button
+              variant="ghost"
+              className="w-full h-11 hover:bg-white/5 rounded-xl transition-all font-bold"
               onClick={() => (window.location.href = "/auth/login")}
             >
               Back to sign in
@@ -86,7 +86,7 @@ export const RecoveryForm: React.FC = () => {
     <div className="w-full max-w-md bg-background/40 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-2xl">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Reset your password</h1>
-        <p className="text-foreground/70">Enter your email address and we'll send you a reset link</p>
+        <p className="text-foreground/70">Enter your email address and we&apos;ll send you a reset link</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
@@ -96,7 +96,10 @@ export const RecoveryForm: React.FC = () => {
         )}
 
         <div className="space-y-2">
-          <Label htmlFor={emailId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={emailId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Email
           </Label>
           <Input
@@ -112,9 +115,9 @@ export const RecoveryForm: React.FC = () => {
           />
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20" 
+        <Button
+          type="submit"
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
           disabled={isLoading}
         >
           {isLoading ? (

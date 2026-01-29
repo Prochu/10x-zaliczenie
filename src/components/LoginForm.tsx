@@ -61,7 +61,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
         )}
 
         <div className="space-y-2">
-          <Label htmlFor={emailId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={emailId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Email
           </Label>
           <Input
@@ -79,7 +82,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
 
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1">
-            <Label htmlFor={passwordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <Label
+              htmlFor={passwordId}
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+            >
               Password
             </Label>
             <a href="/auth/recovery" className="text-xs text-primary hover:underline font-medium">
@@ -99,9 +105,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
           />
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20" 
+        <Button
+          type="submit"
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -115,7 +121,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/dashboard" 
         </Button>
 
         <div className="text-center text-sm text-foreground/80 pt-2">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <a href="/auth/register" className="text-primary hover:underline font-bold">
             Sign up
           </a>

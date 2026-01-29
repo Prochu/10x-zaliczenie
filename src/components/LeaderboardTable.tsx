@@ -15,10 +15,26 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ entries, cur
       <Table>
         <TableHeader className="bg-white/5">
           <TableRow className="hover:bg-transparent border-white/10">
-            <TableHead className={`${compact ? "w-12 px-2" : "w-16"} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Rank</TableHead>
-            <TableHead className={`${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Player</TableHead>
-            <TableHead className={`text-right ${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}>Points</TableHead>
-            {!compact && <TableHead className="text-right text-xs font-bold uppercase tracking-wider text-foreground/60">Matches Bet</TableHead>}
+            <TableHead
+              className={`${compact ? "w-12 px-2" : "w-16"} text-xs font-bold uppercase tracking-wider text-foreground/60`}
+            >
+              Rank
+            </TableHead>
+            <TableHead
+              className={`${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}
+            >
+              Player
+            </TableHead>
+            <TableHead
+              className={`text-right ${compact ? "px-2" : ""} text-xs font-bold uppercase tracking-wider text-foreground/60`}
+            >
+              Points
+            </TableHead>
+            {!compact && (
+              <TableHead className="text-right text-xs font-bold uppercase tracking-wider text-foreground/60">
+                Matches Bet
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>

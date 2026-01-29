@@ -56,7 +56,10 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
   return (
     <div className="flex flex-col md:flex-row gap-4 items-end">
       <div className="flex-1 w-full">
-        <label htmlFor="from-date" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+        <label
+          htmlFor="from-date"
+          className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1"
+        >
           From Date
         </label>
         <input
@@ -69,7 +72,10 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
       </div>
 
       <div className="flex-1 w-full">
-        <label htmlFor="to-date" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+        <label
+          htmlFor="to-date"
+          className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1"
+        >
           To Date
         </label>
         <input
@@ -82,7 +88,10 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
       </div>
 
       <div className="flex-1 w-full">
-        <label htmlFor="sort-order" className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1">
+        <label
+          htmlFor="sort-order"
+          className="block text-xs font-semibold uppercase tracking-wider text-foreground/60 mb-2 ml-1"
+        >
           Sort Order
         </label>
         <select
@@ -97,7 +106,10 @@ const MatchHistoryHeader: React.FC<MatchHistoryHeaderProps> = ({ filters, onFilt
       </div>
 
       <div className="flex-shrink-0 w-full md:w-auto">
-        <Button onClick={validateAndApplyFilters} className="w-full md:w-auto px-8 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20">
+        <Button
+          onClick={validateAndApplyFilters}
+          className="w-full md:w-auto px-8 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
+        >
           Apply Filters
         </Button>
       </div>

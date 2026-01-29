@@ -101,7 +101,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
         )}
 
         <div className="space-y-2">
-          <Label htmlFor={emailId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={emailId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Email
           </Label>
           <Input
@@ -118,7 +121,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor={nicknameId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={nicknameId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Nickname
           </Label>
           <Input
@@ -139,7 +145,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor={passwordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={passwordId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Password
           </Label>
           <Input
@@ -157,7 +166,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor={confirmPasswordId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1">
+          <Label
+            htmlFor={confirmPasswordId}
+            className="text-xs font-semibold uppercase tracking-wider text-muted-foreground ml-1"
+          >
             Confirm password
           </Label>
           <Input
@@ -173,9 +185,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ redirectTo = "/dashb
           />
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20 mt-2" 
+        <Button
+          type="submit"
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20 mt-2"
           disabled={isLoading}
         >
           {isLoading ? (

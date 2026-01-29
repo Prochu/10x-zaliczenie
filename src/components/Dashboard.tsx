@@ -27,13 +27,13 @@ const DashboardComponent: React.FC<DashboardProps> = ({ user }) => {
           <div className="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg mb-8">
             <DashboardHeader lastUpdated={lastUpdated || undefined} />
           </div>
-          
+
           {error && (
             <div className="mb-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg backdrop-blur-sm">
               <p className="text-destructive text-sm">{error}</p>
             </div>
           )}
-          
+
           <MatchList matches={matches} isLoading={isLoading} onBetSaved={refetch} />
         </div>
       </div>

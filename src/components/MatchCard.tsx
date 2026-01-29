@@ -59,7 +59,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onBetSaved }) => {
       }
 
       setBettingState((prev) => ({ ...prev, isDirty: false }));
-      
+
       // Notify parent to refresh data
       if (onBetSaved) {
         onBetSaved();
@@ -89,7 +89,9 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onBetSaved }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             {match.status === "live" && <LiveBadge />}
-            <span className="text-sm font-semibold text-white drop-shadow-md">{formatKickoffTime(match.kickoffTime)}</span>
+            <span className="text-sm font-semibold text-white drop-shadow-md">
+              {formatKickoffTime(match.kickoffTime)}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             {showPoints && (
@@ -105,12 +107,14 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onBetSaved }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3 flex-1">
             {match.homeTeamLogo ? (
-              <img src={match.homeTeamLogo} alt={match.homeTeamName} className="w-10 h-10 object-contain drop-shadow-md" />
+              <img
+                src={match.homeTeamLogo}
+                alt={match.homeTeamName}
+                className="w-10 h-10 object-contain drop-shadow-md"
+              />
             ) : (
               <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/10">
-                <span className="text-xs font-bold text-white">
-                  {match.homeTeamName.substring(0, 2).toUpperCase()}
-                </span>
+                <span className="text-xs font-bold text-white">{match.homeTeamName.substring(0, 2).toUpperCase()}</span>
               </div>
             )}
             <span className="font-bold text-white text-lg drop-shadow-lg truncate">{match.homeTeamName}</span>
@@ -121,14 +125,18 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onBetSaved }) => {
           </div>
 
           <div className="flex items-center space-x-3 flex-1 justify-end">
-            <span className="font-bold text-white text-lg drop-shadow-lg truncate text-right">{match.awayTeamName}</span>
+            <span className="font-bold text-white text-lg drop-shadow-lg truncate text-right">
+              {match.awayTeamName}
+            </span>
             {match.awayTeamLogo ? (
-              <img src={match.awayTeamLogo} alt={match.awayTeamName} className="w-10 h-10 object-contain drop-shadow-md" />
+              <img
+                src={match.awayTeamLogo}
+                alt={match.awayTeamName}
+                className="w-10 h-10 object-contain drop-shadow-md"
+              />
             ) : (
               <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/10">
-                <span className="text-xs font-bold text-white">
-                  {match.awayTeamName.substring(0, 2).toUpperCase()}
-                </span>
+                <span className="text-xs font-bold text-white">{match.awayTeamName.substring(0, 2).toUpperCase()}</span>
               </div>
             )}
           </div>

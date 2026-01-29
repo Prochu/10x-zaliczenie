@@ -8,8 +8,8 @@ const supabaseUrl = "http://127.0.0.1:54321";
 const serviceKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
 
-const sql1 = readFileSync("supabase/seed-scripts/seed_leaderboard_test_data.sql", "utf-8");
-const sql2 = readFileSync("supabase/seed-scripts/seed_upcoming_matches.sql", "utf-8");
+// const sql1 = readFileSync("supabase/seed-scripts/seed_leaderboard_test_data.sql", "utf-8");
+// const sql2 = readFileSync("supabase/seed-scripts/seed_upcoming_matches.sql", "utf-8");
 
 console.log("🌱 Loading seed data using SQL...\n");
 

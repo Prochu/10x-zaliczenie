@@ -52,11 +52,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
           .select("group_id, groups(id, name, is_default)")
           .eq("user_id", profile.id);
 
-        const groups = (userGroups || []).map((ug: any) => ({
-          id: ug.groups.id,
-          name: ug.groups.name,
-          isDefault: ug.groups.is_default,
-        }));
+        const groups = (userGroups || []).map((ug) => {
+          const group = ug.groups as unknown as { id: string; name: string; is_default: boolean };
+          return {
+            id: group.id,
+            name: group.name,
+            isDefault: group.is_default,
+          };
+        });
 
         context.locals.user = {
           id: profile.id,

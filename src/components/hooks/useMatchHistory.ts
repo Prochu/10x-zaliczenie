@@ -103,7 +103,7 @@ export function useMatchHistory(): UseMatchHistoryReturn {
    * Fetches data from API
    */
   const fetchData = useCallback(
-    async (page: number, filters: MatchHistoryFiltersViewModel, append: boolean = false): Promise<void> => {
+    async (page: number, filters: MatchHistoryFiltersViewModel, append = false): Promise<void> => {
       try {
         setState((prev) => ({
           ...prev,
@@ -185,7 +185,7 @@ export function useMatchHistory(): UseMatchHistoryReturn {
   // Load initial data on mount
   useEffect(() => {
     loadInitialData();
-  }, []); // Empty dependency array - only run once on mount
+  }, [loadInitialData]); // Run when loadInitialData changes (which it won't as it's memoized)
 
   return {
     ...state,

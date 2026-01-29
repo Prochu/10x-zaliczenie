@@ -25,7 +25,7 @@ const currentPath = Astro.url.pathname;
   </head>
   <body class="relative min-h-screen">
     {/* Background Pattern */}
-    <div 
+    <div
       class="fixed inset-0 -z-10 h-full w-full bg-[#0a2a0a]"
       style="
         background-image: 
@@ -35,7 +35,8 @@ const currentPath = Astro.url.pathname;
         background-position: center;
         background-attachment: fixed;
       "
-    ></div>
+    >
+    </div>
     {showNavigation && <Navigation currentPath={currentPath} user={user} client:load />}
     <slot />
     <Toaster client:load />

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "../../db/supabase.client";
-import type { BetDto, BetUpsertCommand } from "../../types";
+import type { BetDto } from "../../types";
 
 /**
  * Custom error classes for bet service operations

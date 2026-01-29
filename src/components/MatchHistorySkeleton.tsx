@@ -8,7 +8,10 @@ export const MatchHistorySkeleton: React.FC<MatchHistorySkeletonProps> = ({ coun
   return (
     <div className="space-y-4">
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="bg-background/40 backdrop-blur-md rounded-xl border border-white/10 shadow-lg overflow-hidden animate-pulse">
+        <div
+          key={index}
+          className="bg-background/40 backdrop-blur-md rounded-xl border border-white/10 shadow-lg overflow-hidden animate-pulse"
+        >
           <div className="p-4 md:p-6 pb-3">
             <div className="flex items-center justify-between">
               <div className="flex-1 space-y-3">
